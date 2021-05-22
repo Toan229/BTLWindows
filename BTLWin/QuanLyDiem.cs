@@ -28,7 +28,7 @@ namespace BTLWin
     public partial class QuanLyDiem : Form
     {
         string MaGV, MaMH, MaMHCu;
-        bool isSaved, luuExcel;
+        bool isSaved;
         List<xoaDiem> xoaDiemCSDL;//xóa điểm ở cơ sở dữ liệu
         List<DiemSV> add;
 
@@ -42,7 +42,6 @@ namespace BTLWin
             InitializeComponent();
             this.MaGV = username;
             isSaved = true;
-            luuExcel = false;
             xoaDiemCSDL = new List<xoaDiem>();
         }
 
@@ -254,7 +253,6 @@ namespace BTLWin
                 }
                 xoaDiemCSDL.Clear();
                 dataGridView2.DataSource = data.SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
-                luuExcel = true;
             }
             lblTongSV.Text = dataGridView2.RowCount + " sinh viên";
         }
@@ -282,7 +280,7 @@ namespace BTLWin
                 {
                     if (item.Cells[0].Value != null)
                     {
-                        if (luuExcel)//import file excel nhưng chưa lưu xuống cơ sở dữ liệu
+                        if (isSaved)
                         {
                             xoaDiemCSDL.Add(new xoaDiem(item.Index, MaMH, item.Cells[0].Value.ToString()));
                         }
@@ -309,15 +307,27 @@ namespace BTLWin
 
         private void btnNhapExcel_Click(object sender, EventArgs e)
         {
-            isSaved = false;
-            System.Data.DataTable dt = new System.Data.DataTable();
-            dt = Import();
-            if (dt != null)
+            try
             {
-                dataGridView2.DataSource = dt;
-                luuExcel = false;
+                
+                System.Data.DataTable dt = new System.Data.DataTable();
+                dt = Import();
+                if (dt != null)
+                {
+                    checkExcelData();
+                    dataGridView2.DataSource = dt;
+                    isSaved = false;
+                }
+                lblTongSV.Text = dataGridView2.RowCount + " sinh viên";
+            }catch(Exception ex)
+            {
+                MessageBox.Show("Lỗi : " + ex.Message + "\n Không thể import file", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            lblTongSV.Text = dataGridView2.RowCount + " sinh viên";
+        }
+
+        private void checkExcelData()
+        {
+            throw new NotImplementedException();
         }
 
         private void hienThiSoLuongSinhVien()

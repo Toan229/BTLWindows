@@ -45,6 +45,8 @@
             this.chkHienThiMK = new System.Windows.Forms.CheckBox();
             this.txtDangNhap = new System.Windows.Forms.TextBox();
             this.lblSaiTKorMK = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbLoaiTK = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -110,10 +112,10 @@
             this.btnDangNhap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDangNhap.Font = new System.Drawing.Font("Century Gothic", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDangNhap.ForeColor = System.Drawing.Color.Honeydew;
-            this.btnDangNhap.Location = new System.Drawing.Point(96, 615);
+            this.btnDangNhap.Location = new System.Drawing.Point(99, 633);
             this.btnDangNhap.Name = "btnDangNhap";
             this.btnDangNhap.Size = new System.Drawing.Size(388, 50);
-            this.btnDangNhap.TabIndex = 4;
+            this.btnDangNhap.TabIndex = 5;
             this.btnDangNhap.Text = "ĐĂNG NHẬP";
             this.btnDangNhap.UseVisualStyleBackColor = false;
             this.btnDangNhap.Click += new System.EventHandler(this.btnDangNhap_Click);
@@ -121,7 +123,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(96, 370);
+            this.pictureBox2.Location = new System.Drawing.Point(99, 348);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(52, 37);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -131,7 +133,7 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(96, 452);
+            this.pictureBox3.Location = new System.Drawing.Point(99, 430);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(52, 37);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -141,7 +143,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel2.Location = new System.Drawing.Point(154, 488);
+            this.panel2.Location = new System.Drawing.Point(157, 466);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(330, 1);
             this.panel2.TabIndex = 13;
@@ -149,7 +151,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel3.Location = new System.Drawing.Point(154, 406);
+            this.panel3.Location = new System.Drawing.Point(157, 384);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(330, 1);
             this.panel3.TabIndex = 14;
@@ -158,11 +160,11 @@
             // 
             this.txtMatKhau.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMatKhau.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMatKhau.Location = new System.Drawing.Point(154, 450);
+            this.txtMatKhau.Location = new System.Drawing.Point(157, 428);
             this.txtMatKhau.MaxLength = 14;
             this.txtMatKhau.Name = "txtMatKhau";
             this.txtMatKhau.Size = new System.Drawing.Size(292, 25);
-            this.txtMatKhau.TabIndex = 3;
+            this.txtMatKhau.TabIndex = 2;
             this.txtMatKhau.Text = "Mật khẩu";
             this.txtMatKhau.Validating += new System.ComponentModel.CancelEventHandler(this.txtMatKhau_Validating);
             // 
@@ -179,10 +181,10 @@
             this.chkHienThiMK.AutoSize = true;
             this.chkHienThiMK.Checked = true;
             this.chkHienThiMK.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHienThiMK.Location = new System.Drawing.Point(96, 569);
+            this.chkHienThiMK.Location = new System.Drawing.Point(99, 587);
             this.chkHienThiMK.Name = "chkHienThiMK";
             this.chkHienThiMK.Size = new System.Drawing.Size(140, 21);
-            this.chkHienThiMK.TabIndex = 0;
+            this.chkHienThiMK.TabIndex = 4;
             this.chkHienThiMK.Text = "Hiển thị mật khẩu";
             this.chkHienThiMK.UseVisualStyleBackColor = true;
             this.chkHienThiMK.CheckedChanged += new System.EventHandler(this.chkHienThiMK_CheckedChanged);
@@ -191,11 +193,11 @@
             // 
             this.txtDangNhap.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDangNhap.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDangNhap.Location = new System.Drawing.Point(154, 375);
+            this.txtDangNhap.Location = new System.Drawing.Point(157, 353);
             this.txtDangNhap.MaxLength = 14;
             this.txtDangNhap.Name = "txtDangNhap";
             this.txtDangNhap.Size = new System.Drawing.Size(292, 25);
-            this.txtDangNhap.TabIndex = 2;
+            this.txtDangNhap.TabIndex = 1;
             this.txtDangNhap.Text = "Tên đăng nhập";
             this.txtDangNhap.Validating += new System.ComponentModel.CancelEventHandler(this.txtDangNhap_Validating);
             // 
@@ -204,11 +206,37 @@
             this.lblSaiTKorMK.AutoSize = true;
             this.lblSaiTKorMK.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSaiTKorMK.ForeColor = System.Drawing.Color.Red;
-            this.lblSaiTKorMK.Location = new System.Drawing.Point(159, 503);
+            this.lblSaiTKorMK.Location = new System.Drawing.Point(162, 481);
             this.lblSaiTKorMK.Name = "lblSaiTKorMK";
             this.lblSaiTKorMK.Size = new System.Drawing.Size(262, 25);
-            this.lblSaiTKorMK.TabIndex = 1;
+            this.lblSaiTKorMK.TabIndex = 0;
             this.lblSaiTKorMK.Text = "Tài khoản hoặc mật khẩu sai";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(97, 534);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 20);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Loại tài khoản";
+            // 
+            // cmbLoaiTK
+            // 
+            this.cmbLoaiTK.BackColor = System.Drawing.Color.White;
+            this.cmbLoaiTK.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLoaiTK.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbLoaiTK.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbLoaiTK.FormattingEnabled = true;
+            this.cmbLoaiTK.Items.AddRange(new object[] {
+            "Sinh viên",
+            "Giảng viên",
+            "Quản trị"});
+            this.cmbLoaiTK.Location = new System.Drawing.Point(233, 526);
+            this.cmbLoaiTK.Name = "cmbLoaiTK";
+            this.cmbLoaiTK.Size = new System.Drawing.Size(121, 28);
+            this.cmbLoaiTK.TabIndex = 3;
             // 
             // DangNhap
             // 
@@ -216,6 +244,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(566, 718);
+            this.Controls.Add(this.cmbLoaiTK);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblSaiTKorMK);
             this.Controls.Add(this.txtDangNhap);
             this.Controls.Add(this.chkHienThiMK);
@@ -260,5 +290,7 @@
         private System.Windows.Forms.CheckBox chkHienThiMK;
         private System.Windows.Forms.TextBox txtDangNhap;
         private System.Windows.Forms.Label lblSaiTKorMK;
+        private System.Windows.Forms.ComboBox cmbLoaiTK;
+        private System.Windows.Forms.Label label1;
     }
 }

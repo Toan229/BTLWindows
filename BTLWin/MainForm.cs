@@ -66,14 +66,17 @@ namespace BTLWin
             this.MaximizedBounds = Screen.FromHandle(Handle).WorkingArea;
             panel2.Visible = false;
             panel3.Visible = false;
-            activeChildForm(new TrangChu_Form(id));
+            activeChildForm(new TrangChu_Form(id, this.accountType));
             activeButton(btnTrangChu, Color.CadetBlue);
             switch (accountType)
             {
                 case 0:
                     btnQuanLy.Text = "Kết quả học tập";
+                    btnQuanLy.Padding = new Padding(33, 0, 0, 0);
                     break;
                 case 2:
+                    btnTaiKhoan.Text = "Quản lý tài khoản";
+                    btnTaiKhoan.Padding = new Padding(30, 0, 0, 0);
                     btnQuanLy.Visible = false;
                     break;
             }
@@ -117,7 +120,7 @@ namespace BTLWin
 
         private void btnTraCuu_Click(object sender, EventArgs e)
         {
-            if(panel2.Visible == false)
+            if (panel2.Visible == false)
             {
                 panel2.Visible = true;
             }
@@ -141,7 +144,7 @@ namespace BTLWin
 
         public void activeChildForm(Form newForm)
         {
-            if(currentChildForm != null)
+            if (currentChildForm != null)
             {
                 currentChildForm.Close();
             }
@@ -157,7 +160,7 @@ namespace BTLWin
             //Kích thước của form sẽ tự động điều chỉnh theo parents
             panelChildForm.Controls.Add(newForm);
             //Thêm form vào panel panelChildForm như là 1 controls
-            panelChildForm.Tag = newForm; 
+            panelChildForm.Tag = newForm;
             //The Tag property stores an object reference. Windows Forms programs can use object 
             //models of arbitrary complexity.But the Tag property is a simple way to link a certain object to a certain control.
             //It is useful in certain situations
@@ -168,23 +171,23 @@ namespace BTLWin
         public void activeButton(object sender, Color color)
         {
             //Màu mặc định của các button Teal, nếu button đó dc active thì màu của nó sẽ đổi thành màu dc truyền vào
-            if(sender != null)
+            if (sender != null)
             {
                 disableButton();
                 currentButton = (Button)sender;
                 currentButton.BackColor = color;//LightSeaGreen, CadetBlue
-            }    
+            }
         }
 
         private void btnTrangChu_Click(object sender, EventArgs e)
         {
             activeButton(sender, Color.LightSeaGreen);
-            activeChildForm(new TrangChu_Form(id));
+            activeChildForm(new TrangChu_Form(id, this.accountType));
         }
 
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if(mov)
+            if (mov)
             {
                 this.SetDesktopLocation(MousePosition.X - movX, MousePosition.Y - movY);
             }
@@ -218,36 +221,32 @@ namespace BTLWin
         private void btnTaiKhoan_Click(object sender, EventArgs e)
         {
             activeButton(sender, Color.LightSeaGreen);
-            activeChildForm(new TaiKhoan_Form(this.userName, this.password, this.id));
-            if(accountType == 2)
-            {
-                if(btnQuanLyTK.Visible)
-                {
-                    btnQuanLyTK.Visible = false;
-                }
-                else
-                {
-                    btnQuanLyTK.Visible = true;
-                }
-            }    
+            activeChildForm(new TaiKhoan_Form(this.userName, this.password, this.id, this.accountType));
         }
 
         private void btnQuanLy_Click(object sender, EventArgs e)
         {
             activeButton(sender, Color.LightSeaGreen);
-            activeChildForm(new QuanLyDiem(userName));
+            if (accountType == 1)
+            {
+                activeChildForm(new QuanLyDiem(userName));
+            }
+            else
+            {
+                //form điểm của sv ở đây
+            }
         }
 
         public void disableButton()
         {
-            if(currentButton != null)
+            if (currentButton != null)
             {
                 if (currentButton == btnTrangChu || currentButton == btnTaiKhoan || currentButton == btnQuanLy)
                     currentButton.BackColor = Color.Teal;
                 else
                     currentButton.BackColor = Color.DarkSlateGray;
                 //Màu mặc định của các button trong submenu 
-            }    
+            }
         }
 
         private void btnQuanLyTK_Submenu_Click(object sender, EventArgs e)

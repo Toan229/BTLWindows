@@ -54,6 +54,7 @@ namespace BTLWin
                 txtMatKhau.UseSystemPasswordChar = false;
             }
             lblSaiTKorMK.Visible = false;//Ẩn thông báo sai mk hoặc tên đăng nhập
+            cmbLoaiTK.SelectedIndex = 0;
         }
 
         private void txtDangNhap_Validating(object sender, CancelEventArgs e)
@@ -109,15 +110,33 @@ namespace BTLWin
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-
-            DataTable table = new Database().SelectData("EXEC DangNhap_GV '" + txtDangNhap.Text + "', '" + txtMatKhau.Text + "'");
+            DataTable table = new DataTable();
+            switch (cmbLoaiTK.SelectedIndex)
+            {
+                case 0:
+                    table = new Database().SelectData("EXEC DangNhap_SV '" + txtDangNhap.Text + "', '" + txtMatKhau.Text + "'");
+                    break;
+                case 1:
+                    table = new Database().SelectData("EXEC DangNhap_GV '" + txtDangNhap.Text + "', '" + txtMatKhau.Text + "'");
+                    break;
+                case 2:
+                    table = new Database().SelectData("SELECT * FROM TAIKHOANQTV WHERE TaiKhoan = '" + txtDangNhap.Text + "' AND MatKhau = '" + txtMatKhau.Text + "'");
+                    break;
+            }    
             if(table != null)
             {
                 if (table.Rows.Count != 0)
                 {
                     this.Hide();
                     //Truyền tên đăng nhập, mật khẩu và mã giáo viên vào main form
-                    new MainForm(txtDangNhap.Text, txtMatKhau.Text, table.Rows[0][2].ToString(), 2).ShowDialog();
+                    if(cmbLoaiTK.SelectedIndex == 2)
+                    {
+                        new MainForm(txtDangNhap.Text, txtMatKhau.Text, null, cmbLoaiTK.SelectedIndex).ShowDialog();
+                    }
+                    else
+                    {
+                        new MainForm(txtDangNhap.Text, txtMatKhau.Text, table.Rows[0][2].ToString(), cmbLoaiTK.SelectedIndex).ShowDialog();
+                    }
                     this.Close();
                 }
                 else

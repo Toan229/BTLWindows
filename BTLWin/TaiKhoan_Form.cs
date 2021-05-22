@@ -15,17 +15,19 @@ namespace BTLWin
     {
         string username, password, id;
         bool save = true;
+        int accountType;
         public TaiKhoan_Form()
         {
             InitializeComponent();
         }
 
-        public TaiKhoan_Form(string username, string password, string id)
+        public TaiKhoan_Form(string username, string password, string id, int accountType)
         {
             InitializeComponent();
             this.username = username;
             this.password = password;
             this.id = id;
+            this.accountType = accountType;
         }
 
         private void btn_Update_Click(object sender, EventArgs e)
@@ -64,9 +66,16 @@ namespace BTLWin
             {
                 string date = dateNgaySinh.Value.ToString("yyyy/MM/dd");
                 string gioitinh = cbGioiTinh.Text;
-                int rowEffected = new Database().ExecCmd("EXEC Update_GiangVien '" + txtMaGV.Text + "', N'" + txtHoTen.Text + "', '"
-                    + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
-
+                int rowEffected = 0;
+                if (accountType == 1)
+                {
+                    rowEffected = new Database().ExecCmd("EXEC Update_GiangVien '" + txtMaGV.Text + "', N'" + txtHoTen.Text + "', '"
+                                        + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
+                }
+                else
+                {
+                    //cập nhập sinh viên ở đây
+                }
                 if (rowEffected != 0)
                 {
                     MessageBox.Show("Cập nhập thành công", "Thông báo");
@@ -156,6 +165,35 @@ namespace BTLWin
 
         private void LoadData()
         {
+            switch (accountType)
+            {
+                case 0:
+                    layDuLieuSV();
+                    break;
+                case 1:
+                    layDuLieuGV();
+                    break;
+            }
+        }
+
+        private void layDuLieuSV()
+        {
+            DataTable dt = new Database().SelectData("EXEC TimKiem_SinhVien_TheoMaSV '" + id + "'");
+            dateNgaySinh.MaxDate = DateTime.Now;
+            dateNgaySinh.Value = DateTime.Parse(dt.Rows[0][3].ToString());
+            txtMaGV.Text = id;
+            txtHoTen.Text = dt.Rows[0][2].ToString();
+            txtDiaChi.Text = dt.Rows[0][5].ToString();
+            txtDienThoai.Text = dt.Rows[0][6].ToString();
+            txtDangNhap.Text = username;
+            txtMatKhau.Text = password;
+            cbGioiTinh.Text = dt.Rows[0][4].ToString();
+            dataGridView1.Visible = false;
+            label9.Visible = false;
+        }
+
+        private void layDuLieuGV()
+        {
             dataGridView1.DataSource = new Database().SelectData("EXEC TimKiemMonHoc_TheoMaGV '" + username + "'");
             DataTable dt = new Database().SelectData("EXEC TimKiem_GIangVien '" + id + "'");
             dateNgaySinh.MaxDate = DateTime.Now;
@@ -167,8 +205,6 @@ namespace BTLWin
             txtDangNhap.Text = username;
             txtMatKhau.Text = password;
             cbGioiTinh.Text = dt.Rows[0][3].ToString();
-            DataTable dt2 = new Database().SelectData("SELECT * FROM TAIKHOANGV WHERE TaiKhoan = '" + username + "'");
-            txtMatKhau.Text = dt2.Rows[0][1].ToString();
         }
     }
 }

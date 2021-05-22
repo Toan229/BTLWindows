@@ -14,21 +14,31 @@ namespace BTLWin
     public partial class TrangChu_Form : Form
     {
         private string MaGV;
+        int accountType;
         public TrangChu_Form()
         {
             InitializeComponent();
         }
 
-        public TrangChu_Form(String ID)
+        public TrangChu_Form(string ID, int accountType)
         {
             MaGV = ID;
+            this.accountType = accountType;
             InitializeComponent();
         }
 
         private void TrangChu_Form_Load(object sender, EventArgs e)
         {
-            DataTable dt = new Database().SelectData("EXEC TenMonHoc_GiangVienDay '" + MaGV + "'");
-            if (dt != null)
+            DataTable dt = new DataTable();
+            if (this.accountType == 1)
+            {
+                dt = new Database().SelectData("EXEC TenMonHoc_GiangVienDay '" + MaGV + "'");
+            }
+            else
+            {
+                dt = new Database().SelectData("SELECT TenMonHoc FROM MONHOC");
+            }
+            if (dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
@@ -64,10 +74,10 @@ namespace BTLWin
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBox2.SelectedIndex != -1)
+            if (comboBox2.SelectedIndex != -1)
             {
                 sapXep(comboBox2.SelectedIndex);
-            }    
+            }
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
