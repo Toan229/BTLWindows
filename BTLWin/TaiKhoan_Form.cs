@@ -69,12 +69,14 @@ namespace BTLWin
                 int rowEffected = 0;
                 if (accountType == 1)
                 {
-                    rowEffected = new Database().ExecCmd("EXEC Update_GiangVien '" + txtMaGV.Text + "', N'" + txtHoTen.Text + "', '"
+                    rowEffected = new Database().ExecCmd("EXEC Update_GiangVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
                                         + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
                 }
                 else
                 {
                     //cập nhập sinh viên ở đây
+                    rowEffected = new Database().ExecCmd("EXEC Update_SinhVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
+                                        + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
                 }
                 if (rowEffected != 0)
                 {
@@ -181,7 +183,7 @@ namespace BTLWin
             DataTable dt = new Database().SelectData("EXEC TimKiem_SinhVien_TheoMaSV '" + id + "'");
             dateNgaySinh.MaxDate = DateTime.Now;
             dateNgaySinh.Value = DateTime.Parse(dt.Rows[0][3].ToString());
-            txtMaGV.Text = id;
+            txtMa.Text = id;
             txtHoTen.Text = dt.Rows[0][2].ToString();
             txtDiaChi.Text = dt.Rows[0][5].ToString();
             txtDienThoai.Text = dt.Rows[0][6].ToString();
@@ -198,7 +200,7 @@ namespace BTLWin
             DataTable dt = new Database().SelectData("EXEC TimKiem_GIangVien '" + id + "'");
             dateNgaySinh.MaxDate = DateTime.Now;
             dateNgaySinh.Value = DateTime.Parse(dt.Rows[0][2].ToString());
-            txtMaGV.Text = dt.Rows[0][0].ToString();
+            txtMa.Text = dt.Rows[0][0].ToString();
             txtHoTen.Text = dt.Rows[0][1].ToString();
             txtDiaChi.Text = dt.Rows[0][4].ToString();
             txtDienThoai.Text = dt.Rows[0][5].ToString();

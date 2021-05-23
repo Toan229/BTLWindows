@@ -39,10 +39,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnLuu = new System.Windows.Forms.Button();
             this.btnXuatFile = new System.Windows.Forms.Button();
             this.btnNhapExcel = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
             this.btnChinhSua = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
@@ -118,6 +118,8 @@
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(661, 673);
             this.dataGridView2.TabIndex = 2;
+            this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
+            this.dataGridView2.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView2_DataError);
             // 
             // lblTongSV
             // 
@@ -138,10 +140,10 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btnTimKiem);
             this.groupBox1.Controls.Add(this.txtTimKiem);
-            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.btnLuu);
             this.groupBox1.Controls.Add(this.btnXuatFile);
             this.groupBox1.Controls.Add(this.btnNhapExcel);
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.btnXoa);
             this.groupBox1.Controls.Add(this.btnChinhSua);
             this.groupBox1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
@@ -204,23 +206,23 @@
             this.txtTimKiem.Size = new System.Drawing.Size(248, 27);
             this.txtTimKiem.TabIndex = 0;
             // 
-            // button6
+            // btnLuu
             // 
-            this.button6.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button6.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.ForeColor = System.Drawing.Color.Black;
-            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
-            this.button6.Location = new System.Drawing.Point(58, 363);
-            this.button6.Name = "button6";
-            this.button6.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button6.Size = new System.Drawing.Size(355, 40);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "Lưu";
-            this.button6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.btnLuu_Click);
+            this.btnLuu.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnLuu.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLuu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLuu.ForeColor = System.Drawing.Color.Black;
+            this.btnLuu.Image = ((System.Drawing.Image)(resources.GetObject("btnLuu.Image")));
+            this.btnLuu.Location = new System.Drawing.Point(58, 363);
+            this.btnLuu.Name = "btnLuu";
+            this.btnLuu.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnLuu.Size = new System.Drawing.Size(355, 40);
+            this.btnLuu.TabIndex = 7;
+            this.btnLuu.Text = "Lưu";
+            this.btnLuu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
             // 
             // btnXuatFile
             // 
@@ -260,23 +262,23 @@
             this.btnNhapExcel.UseVisualStyleBackColor = false;
             this.btnNhapExcel.Click += new System.EventHandler(this.btnNhapExcel_Click);
             // 
-            // button3
+            // btnXoa
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.Black;
-            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.Location = new System.Drawing.Point(58, 192);
-            this.button3.Name = "button3";
-            this.button3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button3.Size = new System.Drawing.Size(355, 40);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Xóa";
-            this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.btnXoa_Click);
+            this.btnXoa.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnXoa.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXoa.ForeColor = System.Drawing.Color.Black;
+            this.btnXoa.Image = ((System.Drawing.Image)(resources.GetObject("btnXoa.Image")));
+            this.btnXoa.Location = new System.Drawing.Point(58, 192);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnXoa.Size = new System.Drawing.Size(355, 40);
+            this.btnXoa.TabIndex = 4;
+            this.btnXoa.Text = "Xóa";
+            this.btnXoa.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // btnChinhSua
             // 
@@ -362,10 +364,10 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label lblTongSV;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.Button btnXuatFile;
         private System.Windows.Forms.Button btnNhapExcel;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnChinhSua;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnTimKiem;

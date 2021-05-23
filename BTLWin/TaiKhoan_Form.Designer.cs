@@ -38,7 +38,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtMaGV = new System.Windows.Forms.TextBox();
+            this.txtMa = new System.Windows.Forms.TextBox();
             this.txtHoTen = new System.Windows.Forms.TextBox();
             this.txtDiaChi = new System.Windows.Forms.TextBox();
             this.txtDienThoai = new System.Windows.Forms.TextBox();
@@ -161,18 +161,18 @@
             this.label8.TabIndex = 7;
             this.label8.Text = "Điện thoại";
             // 
-            // txtMaGV
+            // txtMa
             // 
-            this.txtMaGV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.txtMaGV.BackColor = System.Drawing.Color.White;
-            this.txtMaGV.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMaGV.Enabled = false;
-            this.txtMaGV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMaGV.Location = new System.Drawing.Point(223, 156);
-            this.txtMaGV.Name = "txtMaGV";
-            this.txtMaGV.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtMaGV.Size = new System.Drawing.Size(342, 20);
-            this.txtMaGV.TabIndex = 0;
+            this.txtMa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.txtMa.BackColor = System.Drawing.Color.White;
+            this.txtMa.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtMa.Enabled = false;
+            this.txtMa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMa.Location = new System.Drawing.Point(223, 156);
+            this.txtMa.Name = "txtMa";
+            this.txtMa.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtMa.Size = new System.Drawing.Size(342, 20);
+            this.txtMa.TabIndex = 0;
             // 
             // txtHoTen
             // 
@@ -489,7 +489,7 @@
             this.Controls.Add(this.txtDienThoai);
             this.Controls.Add(this.txtDiaChi);
             this.Controls.Add(this.txtHoTen);
-            this.Controls.Add(this.txtMaGV);
+            this.Controls.Add(this.txtMa);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -524,7 +524,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtMaGV;
+        private System.Windows.Forms.TextBox txtMa;
         private System.Windows.Forms.TextBox txtHoTen;
         private System.Windows.Forms.TextBox txtDiaChi;
         private System.Windows.Forms.TextBox txtDienThoai;

@@ -221,7 +221,14 @@ namespace BTLWin
         private void btnTaiKhoan_Click(object sender, EventArgs e)
         {
             activeButton(sender, Color.LightSeaGreen);
-            activeChildForm(new TaiKhoan_Form(this.userName, this.password, this.id, this.accountType));
+            if (accountType != 2)
+            {
+                activeChildForm(new TaiKhoan_Form(this.userName, this.password, this.id, this.accountType));
+            }
+            else
+            {
+                //form quản lý tài khoản
+            }
         }
 
         private void btnQuanLy_Click(object sender, EventArgs e)

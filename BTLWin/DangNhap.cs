@@ -95,7 +95,6 @@ namespace BTLWin
 
         private void chkHienThiMK_CheckedChanged(object sender, EventArgs e)
         {
-
             if (chkHienThiMK.Checked)
             {
                 txtMatKhau.UseSystemPasswordChar = false;
