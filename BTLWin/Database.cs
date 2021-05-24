@@ -21,7 +21,7 @@ namespace Data
             conn = new SqlConnection(StringConnection);
             if(conn == null)
             {
-               MessageBox.Show("Không thể kết nối được với SQLServer", "Lỗi", 
+               MessageBox.Show("Không thể kết nối được với SQLServer", "SqlConnection Error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             conn.Close();
@@ -38,7 +38,7 @@ namespace Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi : " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi : " + ex.Message, "Excute Reader Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             finally
@@ -47,7 +47,7 @@ namespace Data
             }
         }
         public int ExecCmd(string query)
-        {          
+        {
             try
             {
                 int rowEffected;
@@ -58,7 +58,7 @@ namespace Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi : " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi : " + ex.Message, "Excute Query Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 0;
             }
             finally

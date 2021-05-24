@@ -209,7 +209,7 @@
             this.lblSaiTKorMK.Location = new System.Drawing.Point(162, 481);
             this.lblSaiTKorMK.Name = "lblSaiTKorMK";
             this.lblSaiTKorMK.Size = new System.Drawing.Size(262, 25);
-            this.lblSaiTKorMK.TabIndex = 0;
+            this.lblSaiTKorMK.TabIndex = 3;
             this.lblSaiTKorMK.Text = "Tài khoản hoặc mật khẩu sai";
             // 
             // label1
@@ -236,7 +236,7 @@
             this.cmbLoaiTK.Location = new System.Drawing.Point(233, 526);
             this.cmbLoaiTK.Name = "cmbLoaiTK";
             this.cmbLoaiTK.Size = new System.Drawing.Size(121, 28);
-            this.cmbLoaiTK.TabIndex = 3;
+            this.cmbLoaiTK.TabIndex = 0;
             // 
             // DangNhap
             // 

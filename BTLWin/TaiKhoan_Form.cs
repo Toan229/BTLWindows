@@ -40,12 +40,20 @@ namespace BTLWin
         {
             edit(false);
             save = true;
-            luuThongTin();
-
+            int rowEffected = luuThongTin();
+            if (rowEffected != 0)
+            {
+                MessageBox.Show("Cập nhập thành công", "Thông báo");
+            }
+            else
+            {
+                MessageBox.Show("Cập nhập thất bại", "Thông báo");
+            }
         }
 
-        private void luuThongTin()
-        {
+        private int luuThongTin()
+        {  
+            int rowEffected = 0;
             if (txtHoTen.Text == "")
             {
                 textValidating(txtHoTen, new CancelEventArgs(), errorProvider1);
@@ -66,7 +74,7 @@ namespace BTLWin
             {
                 string date = dateNgaySinh.Value.ToString("yyyy/MM/dd");
                 string gioitinh = cbGioiTinh.Text;
-                int rowEffected = 0;
+
                 if (accountType == 1)
                 {
                     rowEffected = new Database().ExecCmd("EXEC Update_GiangVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
@@ -77,17 +85,10 @@ namespace BTLWin
                     //cập nhập sinh viên ở đây
                     rowEffected = new Database().ExecCmd("EXEC Update_SinhVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
                                         + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
-                }
-                if (rowEffected != 0)
-                {
-                    MessageBox.Show("Cập nhập thành công", "Thông báo");
-                }
-                else
-                {
-                    MessageBox.Show("Cập nhập thất bại", "Thông báo");
-                }
+                }               
             }
             LoadData();
+            return rowEffected;
         }
 
         private void btn_Huy_Click(object sender, EventArgs e)

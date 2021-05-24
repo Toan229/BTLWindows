@@ -30,14 +30,7 @@ namespace BTLWin
         private void TrangChu_Form_Load(object sender, EventArgs e)
         {
             DataTable dt = new DataTable();
-            if (this.accountType == 1)
-            {
-                dt = new Database().SelectData("EXEC TenMonHoc_GiangVienDay '" + MaGV + "'");
-            }
-            else
-            {
-                dt = new Database().SelectData("SELECT TenMonHoc FROM MONHOC");
-            }
+            dt = new Database().SelectData("SELECT TenMonHoc FROM MONHOC");           
             if (dt.Rows.Count != 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)

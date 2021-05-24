@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TraCuu_Form));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lblTimKiem = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.btnHuyKQ = new System.Windows.Forms.Button();
@@ -74,17 +74,17 @@
             this.lblTimKiem.TabIndex = 0;
             this.lblTimKiem.Text = "Tìm kiếm theo mã giảng viên";
             // 
-            // textBox1
+            // txtTimKiem
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(16, 161);
-            this.textBox1.MaxLength = 24;
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox1.Size = new System.Drawing.Size(343, 30);
-            this.textBox1.TabIndex = 0;
+            this.txtTimKiem.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtTimKiem.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTimKiem.Location = new System.Drawing.Point(16, 161);
+            this.txtTimKiem.MaxLength = 24;
+            this.txtTimKiem.Multiline = true;
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txtTimKiem.Size = new System.Drawing.Size(343, 30);
+            this.txtTimKiem.TabIndex = 0;
             // 
             // panel1
             // 
@@ -163,7 +163,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnTimKiem);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtTimKiem);
             this.Controls.Add(this.lblTimKiem);
             this.Name = "TraCuu_Form";
             this.ShowInTaskbar = false;
@@ -180,7 +180,7 @@
         #endregion
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label lblTimKiem;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTimKiem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.Button btnHuyKQ;

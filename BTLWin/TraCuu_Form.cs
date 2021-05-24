@@ -31,6 +31,7 @@ namespace BTLWin
         private void btnHuyKQ_Click(object sender, EventArgs e)
         {
             layDuLieu();
+            txtTimKiem.Text = string.Empty;
         }
 
         private void layDuLieu()
@@ -137,9 +138,9 @@ namespace BTLWin
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text != "")
+            if (txtTimKiem.Text != "")
             {
-                string search = textBox1.Text.ToString().Trim();
+                string search = txtTimKiem.Text.ToString().Trim();
                 string query;
                 switch (btnTag)
                 {

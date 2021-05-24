@@ -27,11 +27,11 @@ namespace BTLWin
     }
     public partial class QuanLyDiem : Form
     {
-        string MaGV, MaMH, MaMHCu;
+        string MaGV, MaMH;
         bool Saved;
 
         List<DiemSV> diemUpdate, diemInsert;
-        List<string> diemTrongCSDL;
+        List<string> diemTrongCSDL, xoaDiemCSDL;
         public QuanLyDiem()
         {
             InitializeComponent();
@@ -45,6 +45,7 @@ namespace BTLWin
             diemUpdate = new List<DiemSV>();
             diemInsert = new List<DiemSV>();
             diemTrongCSDL = new List<string>();
+            xoaDiemCSDL = new List<string>();
         }
 
         private void QuanLyDiem_Load(object sender, EventArgs e)
@@ -56,7 +57,6 @@ namespace BTLWin
                 diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
             }
             MaMH = dataGridView1.Rows[0].Cells[0].Value.ToString();
-            MaMHCu = MaMH;
             lblTongSV.Text = dataGridView2.RowCount + " sinh viên";
         }
 
@@ -64,16 +64,15 @@ namespace BTLWin
         {
             if (e.RowIndex > -1)
             {
-                MaMH = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
                 if (!Saved)
                 {
-                    if (!MaMHCu.Equals(MaMH))//Sau khi chỉnh sửa điểm các sinh viên ở môn học cũ thì chưa lưu
+                    if (!MaMH.Equals(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString()))//Sau khi chỉnh sửa điểm các sinh viên ở môn học cũ thì chưa lưu
                     {
                         DialogResult result = MessageBox.Show("Thông tin bạn vừa cập nhập chưa được lưu. \nBạn có muốn lưu chúng không ?", "Warning",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         if (result == DialogResult.Yes)
                         {//Cập nhập thông tin
-
+                            luuThongTin();
                         }
                         dataGridView2.ReadOnly = true;
                         dataGridView2.AllowUserToAddRows = false;
@@ -90,7 +89,7 @@ namespace BTLWin
                     diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
                 }
                 lblTongSV.Text = dataGridView2.RowCount.ToString() + " sinh viên";
-                MaMHCu = MaMH;
+                MaMH = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
             }
         }
 
@@ -101,8 +100,8 @@ namespace BTLWin
                 DialogResult result = MessageBox.Show("Thông tin bạn vừa cập nhập chưa được lưu. \nBạn có muốn lưu chúng không ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {//Cập nhập thông tin
-                    btnLuu_Click(null, null);
-                }
+                    luuThongTin();
+                }            
             }
         }
 
@@ -113,7 +112,7 @@ namespace BTLWin
                 DialogResult result = MessageBox.Show("Thông tin bạn vừa cập nhập chưa được lưu. \nBạn có muốn lưu chúng không ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {//Cập nhập thông tin
-                    btnLuu_Click(null, null);
+                    luuThongTin();
                 }
             }
             SaveFileDialog saveFile = new SaveFileDialog();
@@ -238,13 +237,28 @@ namespace BTLWin
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            luuThongTin();
+        }
+        private void luuThongTin()
+        {
             dataGridView2.ReadOnly = true;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
             Saved = true;
 
             Data.Database data = new Data.Database();
-            if(diemUpdate.Count != 0)
+
+            if (xoaDiemCSDL.Count != 0)
+            {
+                foreach (string item in xoaDiemCSDL)
+                {
+                    data.ExecCmd("EXEC Delete_Diem '" + item + "', '" + MaMH + "'");
+                }
+                xoaDiemCSDL.Clear();
+            }
+
+
+            if (diemUpdate.Count != 0)
             {
                 foreach (DiemSV item in diemUpdate)
                 {
@@ -253,13 +267,22 @@ namespace BTLWin
                 diemUpdate.Clear();
             }
 
-
+            if (diemInsert.Count != 0)
+            {
+                foreach (DiemSV item in diemInsert)
+                {
+                    data.ExecCmd("INSERT INTO DIEM VALUES('" + item.MaSV + "', '" + item.MaMH + "', " + item.DiemTX + ", " + item.DiemKTHP + ", " + item.DiemTB + ", '" + item.DiemChu + "')");
+                }
+            }
+            diemInsert.Clear();
             dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '"
-                + MaMH+ "'");
-            //Xóa điểm ở csdl
-
+                + MaMH + "'");
+            diemTrongCSDL.Clear();
+            for (int i = 0; i < dataGridView2.RowCount; i++)
+            {
+                diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
+            }
         }
-
         private void btnChinhSua_Click(object sender, EventArgs e)
         {
             dataGridView2.ReadOnly = false;
@@ -278,7 +301,63 @@ namespace BTLWin
             }
             else
             {
-                
+                List<int> position = new List<int>();
+                foreach (DataGridViewRow item in dataGridView2.SelectedRows)
+                {
+                    if (item.Index == dataGridView2.RowCount - 1)
+                    {
+                        if (Saved)
+                        {
+                            if (diemTrongCSDL.Contains(item.Cells[0].Value.ToString()))
+                            {
+                                xoaDiemCSDL.Add(item.Cells[0].Value.ToString());
+                                diemTrongCSDL.Remove(item.Cells[0].Value.ToString());
+                                for (int i = 0; i < diemUpdate.Count; i++)
+                                {
+                                    if (diemUpdate[i].MaSV.Equals(item.Cells[0].Value.ToString()))
+                                    {
+                                        diemUpdate.RemoveAt(i);
+                                        break;
+                                    }
+                                }
+                            }
+                            position.Add(item.Index);
+                        }
+                    }
+                    else
+                    {
+                        if (diemTrongCSDL.Contains(item.Cells[0].Value.ToString()))
+                        {
+                            xoaDiemCSDL.Add(item.Cells[0].Value.ToString());
+                            diemTrongCSDL.Remove(item.Cells[0].Value.ToString());
+                            for (int i = 0; i < diemUpdate.Count; i++)
+                            {
+                                if (diemUpdate[i].MaSV.Equals(item.Cells[0].Value.ToString()))
+                                {
+                                    diemUpdate.RemoveAt(i);
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < diemInsert.Count; i++)
+                            {
+                                if (diemInsert[i].MaSV.Equals(item.Cells[0].Value.ToString()))
+                                {
+                                    diemInsert.RemoveAt(i);
+                                }
+                            }
+                        }
+                        position.Add(item.Index);
+                    }
+                }
+                position.Sort();
+                for (int i = position.Count - 1; i >= 0; i--)
+                {
+                    dataGridView2.Rows.RemoveAt(position[i]);
+                }
+                Saved = false;
             }
         }
 
@@ -327,8 +406,8 @@ namespace BTLWin
         {
             if (e.RowIndex < dataGridView2.RowCount - 1)
             {
-                if(string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString()))
-                {                   
+                if (string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString()))
+                {
                     MessageBox.Show("Mã sinh viên đang bị bỏ trống.\nGiá trị của mã sinh viên sẽ được đặt mặc định.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dataGridView2.Rows[e.RowIndex].Cells[0].Value = e.RowIndex;
                 }
@@ -337,7 +416,7 @@ namespace BTLWin
                     double diemtx = double.NaN, diemkt = double.NaN, diemtb = double.NaN;
                     string diemChu = string.Empty;
                     bool check = true;
-                    if ( !string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString()))
+                    if (!string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString()))
                     {
                         diemtx = double.Parse(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
                         if (diemtx < 0 || diemtx > 10)
@@ -352,7 +431,7 @@ namespace BTLWin
                         check = false;
                     }
 
-                    if (!string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString() ))
+                    if (!string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString()))
                     {
                         diemkt = double.Parse(dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString());
                         if (diemkt < 0 || diemkt > 10)
@@ -380,14 +459,19 @@ namespace BTLWin
                         else if (diemtb >= 4.0) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "D";
                         else if (diemtb < 4) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "F";
                         diemChu = dataGridView2.Rows[e.RowIndex].Cells[4].Value.ToString();
-                    }                 
-                    if(diemTrongCSDL.Contains(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim()))
-                    {
-                        diemUpdate.Add(new DiemSV(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim(), MaMH, diemtx, diemkt, diemtb, diemChu));
+                        if (diemTrongCSDL.Contains(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim()))
+                        {
+                            diemUpdate.Add(new DiemSV(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim(), MaMH, diemtx, diemkt, diemtb, diemChu));
+                        }
+                        else
+                        {
+                            diemInsert.Add(new DiemSV(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim(), MaMH, diemtx, diemkt, diemtb, diemChu));
+                        }
+                        dataGridView2.Rows[e.RowIndex].ErrorText = string.Empty;
                     }
                     else
                     {
-                        diemInsert.Add(new DiemSV(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim(), MaMH, diemtx, diemkt, diemtb, diemChu));
+                        dataGridView2.Rows[e.RowIndex].ErrorText = "Bạn cần nhập đủ thông tin nếu không dòng này sẽ bị bỏ qua";
                     }
                 }
                 catch (Exception ex)
@@ -406,7 +490,38 @@ namespace BTLWin
         {
             if (txtTimKiem.Text != "")
             {
-                dataGridView2.DataSource = new Data.Database().SelectData("EXEC TimKiem_Diem '" + txtTimKiem.Text + "', '" + MaMH + "'");
+                //dataGridView2.DataSource = new Data.Database().SelectData("EXEC TimKiem_Diem '" + txtTimKiem.Text + "', '" + MaMH + "'");
+                System.Data.DataTable timkiem = new System.Data.DataTable();
+                timkiem.Columns.Add();
+                timkiem.Columns[0].ColumnName = "Mã sinh viên";
+
+                timkiem.Columns.Add();
+                timkiem.Columns[1].ColumnName = "Điểm thường xuyên";
+
+                timkiem.Columns.Add();
+                timkiem.Columns[2].ColumnName = "Điểm kết thúc học phần";
+
+                timkiem.Columns.Add();
+                timkiem.Columns[3].ColumnName = "Điểm trung bình";
+
+                timkiem.Columns.Add();
+                timkiem.Columns[4].ColumnName = "Điểm chữ";
+
+                int i = 0;
+                foreach (DataGridViewRow item in dataGridView2.Rows)
+                {
+                    if(item.Cells[0].Value.ToString().Equals(txtTimKiem.Text.Trim().ToString()))
+                    {
+                        timkiem.Rows.Add();
+                        timkiem.Rows[i][0] = item.Cells[0].Value;
+                        timkiem.Rows[i][1] = item.Cells[1].Value;
+                        timkiem.Rows[i][2] = item.Cells[2].Value;
+                        timkiem.Rows[i][3] = item.Cells[3].Value;
+                        timkiem.Rows[i][4] = item.Cells[4].Value;
+                        i++;
+                    }
+                }
+                dataGridView2.DataSource = timkiem;
                 btnHuyKQ.Visible = true;
                 lblTongSV.Text = dataGridView2.RowCount.ToString() + " sinh viên";
             }
