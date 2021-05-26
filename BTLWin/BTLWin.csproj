@@ -60,11 +60,23 @@
     <Compile Include="QuanLyDiem.Designer.cs">
       <DependentUpon>QuanLyDiem.cs</DependentUpon>
     </Compile>
+    <Compile Include="QuanLyTaiKhoan_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QuanLyTaiKhoan_Form.designer.cs">
+      <DependentUpon>QuanLyTaiKhoan_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaiKhoan_Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TaiKhoan_Form.Designer.cs">
       <DependentUpon>TaiKhoan_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThemTaiKhoan_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThemTaiKhoan_Form.Designer.cs">
+      <DependentUpon>ThemTaiKhoan_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="TrangChu_Form.cs">
       <SubType>Form</SubType>
@@ -100,11 +112,23 @@
     <Compile Include="TraCuu_Form.Designer.cs">
       <DependentUpon>TraCuu_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="XemDiem_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XemDiem_Form.Designer.cs">
+      <DependentUpon>XemDiem_Form.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="QuanLyDiem.resx">
       <DependentUpon>QuanLyDiem.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="QuanLyTaiKhoan_Form.resx">
+      <DependentUpon>QuanLyTaiKhoan_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TaiKhoan_Form.resx">
       <DependentUpon>TaiKhoan_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThemTaiKhoan_Form.resx">
+      <DependentUpon>ThemTaiKhoan_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrangChu_Form.resx">
       <DependentUpon>TrangChu_Form.cs</DependentUpon>
@@ -123,6 +147,9 @@
     <EmbeddedResource Include="TraCuu_Form.resx">
       <DependentUpon>TraCuu_Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="XemDiem_Form.resx">
+      <DependentUpon>XemDiem_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="CSDL\qldsv.bacpac" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -140,7 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Image\add %281%29.png" />
-    <Content Include="Image\add.png" />
     <Content Include="Image\cancel %283%29.png" />
     <Content Include="Image\checklist%28Big icon%29.png" />
     <Content Include="Image\checklist.png" />
@@ -159,6 +185,7 @@
     <Content Include="Image\loupe.png" />
     <Content Include="Image\profiles-icon-15.jpg" />
     <Content Include="Image\rectangular-geometrical-shape-outline.png" />
+    <Content Include="Image\Rolling-1s-200px.gif" />
     <Content Include="Image\spreadsheet-ascending-order.png" />
     <Content Include="Image\stadistics.png" />
     <Content Include="Image\Untitled-1.png" />

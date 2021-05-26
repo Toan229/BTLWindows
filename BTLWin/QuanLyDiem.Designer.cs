@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QuanLyDiem));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -35,11 +37,11 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.lblTongSV = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnReloadData = new System.Windows.Forms.Button();
             this.btnHuyKQ = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
-            this.btnLuu = new System.Windows.Forms.Button();
             this.btnXuatFile = new System.Windows.Forms.Button();
             this.btnNhapExcel = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
@@ -66,6 +68,14 @@
             this.dataGridView1.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Location = new System.Drawing.Point(12, 125);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -101,7 +111,6 @@
             // 
             this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.AllowUserToResizeColumns = false;
             this.dataGridView2.AllowUserToResizeRows = false;
             this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -110,6 +119,14 @@
             this.dataGridView2.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView2.Location = new System.Drawing.Point(509, 123);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
@@ -118,6 +135,7 @@
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(661, 673);
             this.dataGridView2.TabIndex = 2;
+            this.dataGridView2.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView2_CellBeginEdit);
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
             this.dataGridView2.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView2_DataError);
             // 
@@ -136,11 +154,11 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox1.Controls.Add(this.btnReloadData);
             this.groupBox1.Controls.Add(this.btnHuyKQ);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btnTimKiem);
             this.groupBox1.Controls.Add(this.txtTimKiem);
-            this.groupBox1.Controls.Add(this.btnLuu);
             this.groupBox1.Controls.Add(this.btnXuatFile);
             this.groupBox1.Controls.Add(this.btnNhapExcel);
             this.groupBox1.Controls.Add(this.btnXoa);
@@ -154,6 +172,25 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chức năng";
+            // 
+            // btnReloadData
+            // 
+            this.btnReloadData.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnReloadData.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnReloadData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReloadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReloadData.ForeColor = System.Drawing.Color.Black;
+            this.btnReloadData.Image = ((System.Drawing.Image)(resources.GetObject("btnReloadData.Image")));
+            this.btnReloadData.Location = new System.Drawing.Point(58, 345);
+            this.btnReloadData.Name = "btnReloadData";
+            this.btnReloadData.Padding = new System.Windows.Forms.Padding(25, 0, 0, 0);
+            this.btnReloadData.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnReloadData.Size = new System.Drawing.Size(355, 40);
+            this.btnReloadData.TabIndex = 9;
+            this.btnReloadData.Text = "Tải lại dữ liệu";
+            this.btnReloadData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnReloadData.UseVisualStyleBackColor = false;
+            this.btnReloadData.Click += new System.EventHandler(this.btnReloadData_Click);
             // 
             // btnHuyKQ
             // 
@@ -206,24 +243,6 @@
             this.txtTimKiem.Size = new System.Drawing.Size(248, 27);
             this.txtTimKiem.TabIndex = 0;
             // 
-            // btnLuu
-            // 
-            this.btnLuu.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnLuu.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnLuu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLuu.ForeColor = System.Drawing.Color.Black;
-            this.btnLuu.Image = ((System.Drawing.Image)(resources.GetObject("btnLuu.Image")));
-            this.btnLuu.Location = new System.Drawing.Point(58, 363);
-            this.btnLuu.Name = "btnLuu";
-            this.btnLuu.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnLuu.Size = new System.Drawing.Size(355, 40);
-            this.btnLuu.TabIndex = 7;
-            this.btnLuu.Text = "Lưu";
-            this.btnLuu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnLuu.UseVisualStyleBackColor = false;
-            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
-            // 
             // btnXuatFile
             // 
             this.btnXuatFile.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -232,7 +251,7 @@
             this.btnXuatFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXuatFile.ForeColor = System.Drawing.Color.Black;
             this.btnXuatFile.Image = ((System.Drawing.Image)(resources.GetObject("btnXuatFile.Image")));
-            this.btnXuatFile.Location = new System.Drawing.Point(58, 306);
+            this.btnXuatFile.Location = new System.Drawing.Point(58, 295);
             this.btnXuatFile.Name = "btnXuatFile";
             this.btnXuatFile.Padding = new System.Windows.Forms.Padding(35, 0, 0, 0);
             this.btnXuatFile.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -251,7 +270,7 @@
             this.btnNhapExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNhapExcel.ForeColor = System.Drawing.Color.Black;
             this.btnNhapExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnNhapExcel.Image")));
-            this.btnNhapExcel.Location = new System.Drawing.Point(58, 249);
+            this.btnNhapExcel.Location = new System.Drawing.Point(58, 245);
             this.btnNhapExcel.Name = "btnNhapExcel";
             this.btnNhapExcel.Padding = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.btnNhapExcel.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -270,7 +289,7 @@
             this.btnXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoa.ForeColor = System.Drawing.Color.Black;
             this.btnXoa.Image = ((System.Drawing.Image)(resources.GetObject("btnXoa.Image")));
-            this.btnXoa.Location = new System.Drawing.Point(58, 192);
+            this.btnXoa.Location = new System.Drawing.Point(58, 195);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnXoa.Size = new System.Drawing.Size(355, 40);
@@ -288,7 +307,7 @@
             this.btnChinhSua.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChinhSua.ForeColor = System.Drawing.Color.Black;
             this.btnChinhSua.Image = ((System.Drawing.Image)(resources.GetObject("btnChinhSua.Image")));
-            this.btnChinhSua.Location = new System.Drawing.Point(58, 137);
+            this.btnChinhSua.Location = new System.Drawing.Point(58, 145);
             this.btnChinhSua.Name = "btnChinhSua";
             this.btnChinhSua.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnChinhSua.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -344,7 +363,6 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "QuanLyDiem";
             this.Text = "QuanLyDiem";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QuanLyDiem_FormClosing);
             this.Load += new System.EventHandler(this.QuanLyDiem_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
@@ -364,7 +382,6 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label lblTongSV;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.Button btnXuatFile;
         private System.Windows.Forms.Button btnNhapExcel;
         private System.Windows.Forms.Button btnXoa;
@@ -376,5 +393,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnReloadData;
     }
 }

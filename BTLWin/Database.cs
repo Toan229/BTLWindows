@@ -50,15 +50,12 @@ namespace Data
         {
             try
             {
-                int rowEffected;
                 conn.Open();
                 cmd = new SqlCommand(query, conn);
-                rowEffected = cmd.ExecuteNonQuery();
-                return rowEffected;
-            }
-            catch (Exception ex)
+                return cmd.ExecuteNonQuery();
+            }catch(Exception)
             {
-                MessageBox.Show("Lỗi : " + ex.Message, "Excute Query Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(ex.Message);
                 return 0;
             }
             finally

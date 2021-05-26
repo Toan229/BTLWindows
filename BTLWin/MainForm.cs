@@ -16,7 +16,7 @@ namespace BTLWin
         bool mov;
         int movX, movY, accountType;
 
-        Form currentChildForm;
+        public Form currentChildForm { get; set; }
         Button currentButton;
         string userName, password, id;
         public MainForm()
@@ -228,6 +228,7 @@ namespace BTLWin
             else
             {
                 //form quản lý tài khoản
+                activeChildForm(new QuanLyTaiKhoan_Form());
             }
         }
 
@@ -241,6 +242,7 @@ namespace BTLWin
             else
             {
                 //form điểm của sv ở đây
+                activeChildForm(new XemDiem_Form(this.id));
             }
         }
 
