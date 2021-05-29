@@ -32,7 +32,8 @@ namespace BTLWin
 
         List<DsDiem> diemUpdate, diemInsert;
         List<string> diemTrongCSDL;
-        string maSV;
+        System.Data.DataTable checkUpdateTable;
+        bool escKey, xoabtn;
 
         public QuanLyDiem()
         {
@@ -46,15 +47,18 @@ namespace BTLWin
             diemUpdate = new List<DsDiem>();
             diemInsert = new List<DsDiem>();
             diemTrongCSDL = new List<string>();
+            escKey = false;
+            xoabtn = false;
         }
 
         private void QuanLyDiem_Load(object sender, EventArgs e)
         {
             dataGridView1.DataSource = new Database().SelectData("EXEC TimKiemMonHoc_TheoMaGV '" + MaGV + "'");
-            dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + dataGridView1.Rows[0].Cells[0].Value + "'");
-            for (int i = 0; i < dataGridView2.RowCount; i++)
+            checkUpdateTable = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + dataGridView1.Rows[0].Cells[0].Value + "'");
+            dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + dataGridView1.Rows[0].Cells[0].Value + "'"); ;
+            foreach (DataRow item in checkUpdateTable.Rows)
             {
-                diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
+                diemTrongCSDL.Add(item.ItemArray[0].ToString());
             }
             MaMH = dataGridView1.Rows[0].Cells[0].Value.ToString();
             hienThiSoLuongSinhVien();
@@ -67,6 +71,11 @@ namespace BTLWin
                 dataGridView2.ReadOnly = true;
                 dataGridView2.AllowUserToAddRows = false;
                 dataGridView2.AllowUserToDeleteRows = false;
+
+                checkUpdateTable = null;
+                checkUpdateTable = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '"
+                    + dataGridView1.Rows[e.RowIndex].Cells[0].Value + "'");
+
                 dataGridView2.DataSource = null;
                 dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '"
                     + dataGridView1.Rows[e.RowIndex].Cells[0].Value + "'");
@@ -191,7 +200,7 @@ namespace BTLWin
             }
         }
 
-        private void releaseObject(object obj)
+        public void releaseObject(object obj)
         {
             //This method is used to explicitly control the lifetime of a COM object used from managed code. 
             //You should use this method to free the underlying COM object that holds references to resources in a timely manner 
@@ -219,6 +228,7 @@ namespace BTLWin
         {
             dataGridView2.ReadOnly = false;
             dataGridView2.AllowUserToAddRows = !btnHuyKQ.Visible;
+            dataGridView2.Columns[0].ReadOnly = btnHuyKQ.Visible;
             dataGridView2.AllowUserToDeleteRows = false;
             dataGridView2.Columns[3].ReadOnly = true;
             dataGridView2.Columns[4].ReadOnly = true;
@@ -229,46 +239,62 @@ namespace BTLWin
         {
             if (dataGridView2.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Bạn chưa chọn dòng nào để xóa", "Thông báo");
+                MessageBox.Show("Bạn chưa chọn dòng nào để xóa", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                Database data = new Database();
-                List<int> position = new List<int>();
-                foreach (DataGridViewRow item in dataGridView2.SelectedRows)
-                {
-                    if (!dataGridView2.AllowUserToAddRows || (dataGridView2.AllowUserToAddRows && item.Index < dataGridView2.RowCount - 1))
-                    {
-                        if (diemTrongCSDL.Contains(item.Cells[0].Value.ToString()))
-                        {
-                            diemTrongCSDL.Remove(item.Cells[0].Value.ToString());
-                            data.ExecCmd("EXEC Delete_Diem '" + item.Cells[0].Value.ToString() + "', '" + MaMH + "'");
-                        }
-                        position.Add(item.Index);
-                    }
-                }
-                position.Sort();
-                for (int i = position.Count - 1; i >= 0; i--)
-                {
-                    dataGridView2.Rows.RemoveAt(position[i]);
-                }
-                dataGridView2.DataSource = null;
-                dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
-                diemTrongCSDL.Clear();
-                for (int i = 0; i < dataGridView2.RowCount; i++)
-                {
-                    if (dataGridView2.AllowUserToAddRows && i < dataGridView2.RowCount - 1)
-                    {
-                        diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                    }
-                }
-                hienThiSoLuongSinhVien();
+                xoabtn = true;
+                xoa();
+                xoabtn = false;
             }
+        }
+
+        private void xoa()
+        {
+            Database data = new Database();
+            List<int> position = new List<int>();
+            foreach (DataGridViewRow item in dataGridView2.SelectedRows)
+            {
+                if (!dataGridView2.AllowUserToAddRows || (dataGridView2.AllowUserToAddRows && item.Index < dataGridView2.RowCount - 1))
+                {
+                    if (dataGridView2.Rows[item.Index].ErrorText == "" && diemTrongCSDL.Contains(item.Cells[0].Value.ToString()))
+                    {
+                        diemTrongCSDL.Remove(item.Cells[0].Value.ToString());
+                        data.ExecCmd("EXEC Delete_Diem '" + item.Cells[0].Value.ToString() + "', '" + MaMH + "'");
+                    }
+                    position.Add(item.Index);
+                }
+            }
+            position.Sort();
+            for (int i = position.Count - 1; i >= 0; i--)
+            {
+                dataGridView2.Rows.RemoveAt(position[i]);
+            }
+            checkUpdateTable = null;
+            checkUpdateTable = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
+
+            dataGridView2.CurrentCell = null;
+            dataGridView2.DataSource = null;
+            dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
+            diemTrongCSDL.Clear();
+            for (int i = 0; i < checkUpdateTable.Rows.Count; i++)
+            {
+                diemTrongCSDL.Add(checkUpdateTable.Rows[i].ItemArray[0].ToString());
+            }
+            btnHuyKQ.Visible = false;
+            txtTimKiem.Text = string.Empty;
+            hienThiSoLuongSinhVien();
         }
 
         private void btnHuyKQ_Click(object sender, EventArgs e)
         {
             txtTimKiem.Text = string.Empty;
+            dataGridView2.DataSource = null;
+            btnChinhSua.BackColor = SystemColors.ControlDark;
+            dataGridView2.ReadOnly = true;
+            checkUpdateTable = null;
+            checkUpdateTable = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
+
             dataGridView2.DataSource = null;
             dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
             diemTrongCSDL.Clear();
@@ -294,22 +320,47 @@ namespace BTLWin
                     if (dt != null)
                     {
                         new Database().ExecCmd("DELETE FROM DIEM WHERE MaMH = '" + MaMH + "'");
-                        int rowEffected = 0;
+                        int rowsEffected = 0;
+                        List<string> result1 = new List<string>();
+                        double diemtx, diemkt;
                         foreach (DataRow item in dt.Rows)
                         {
-                            rowEffected += new Database().ExecCmd("INSERT INTO DIEM VALUES('" + item.ItemArray[0] + "', '" + MaMH + "', " + item.ItemArray[1] + ", " + item.ItemArray[2] + ", " + item.ItemArray[3] + ", '" + item.ItemArray[4] + "')");
+                            if (item.ItemArray[0] != null && item.ItemArray[1] != null && item.ItemArray[2] != null)
+                            {
+                                if (double.TryParse(item.ItemArray[1].ToString(), out diemtx) && double.TryParse(item.ItemArray[2].ToString(), out diemkt) && diemtx > 0 && diemtx < 10
+                                    && diemkt > 0 && diemkt < 10)
+                                {
+                                    if (diemTrongCSDL.Contains(item.ItemArray[0].ToString()))
+                                    {
+                                        result1 = new Database().ExecCmd("EXEC Update_Diem '" + item.ItemArray[0] + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + tinhDiem(diemtx, diemkt)[0] + ", '" + tinhDiem(diemtx, diemkt)[1] + "', '" + item.ItemArray[0] + "'");
+                                    }
+                                    //else if ()
+                                    //{
+                                    //    rowEffected = new Database().ExecCmd("INSERT INTO DIEM VALUES('" + item.ItemArray[0] + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + tinhDiem(diemtx, diemkt)[0] + ", '" + tinhDiem(diemtx, diemkt)[1] + "')");
+                                    //    if (rowEffected != 0)
+                                    //    {
+                                    //        diemTrongCSDL.Add(item.ItemArray[0].ToString());
+                                    //    }
+                                    //}
+                                    rowsEffected += int.Parse(result1[0]);
+                                }
+                            }
                         }
+
+
                         dataGridView2.DataSource = null;
                         dataGridView2.ReadOnly = true;
                         dataGridView2.AllowUserToAddRows = false;
+                        dataGridView2.CurrentCell = null;
+                        dataGridView2.DataSource = null;
                         dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
-                        if (rowEffected == dt.Rows.Count)
+                        if (rowsEffected == dt.Rows.Count)
                         {
                             MessageBox.Show("Nhập dữ liệu thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            MessageBox.Show("Số dòng nhập thành công : " + rowEffected + "/" + dt.Rows.Count, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("Số dòng nhập thành công : " + rowsEffected + "/" + dt.Rows.Count, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                         diemTrongCSDL.Clear();
                         for (int i = 0; i < dataGridView2.RowCount - 1; i++)
@@ -328,6 +379,24 @@ namespace BTLWin
             }
         }
 
+        private List<string> tinhDiem(double diemtx, double diemkt)
+        {
+            List<string> result = new List<string>(2);
+            string diemchu;
+            double diemtb = Math.Round((diemtx + diemkt * 2) / 3, 2);
+            if (diemtb >= 8.5) diemchu = "A";
+            else if (diemtb >= 7.7) diemchu = "B+";
+            else if (diemtb >= 7) diemchu = "B";
+            else if (diemtb >= 6.2) diemchu = "C+";
+            else if (diemtb >= 5.5) diemchu = "C";
+            else if (diemtb >= 4.7) diemchu = "D+";
+            else if (diemtb >= 4.0) diemchu = "D";
+            else diemchu = "F";
+            result.Add(diemtb.ToString());
+            result.Add(diemchu);
+            return result;
+        }
+
         private void hienThiSoLuongSinhVien()
         {
             if (dataGridView2.AllowUserToAddRows == false)
@@ -340,170 +409,12 @@ namespace BTLWin
             }
         }
 
-        private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            MessageBox.Show(e.RowIndex.ToString() + "_" + dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
-            if (e.RowIndex < dataGridView2.RowCount)
-            {
-                if ((e.RowIndex != dataGridView2.RowCount - 1) && ( dataGridView2.Rows[e.RowIndex].Cells[0].Value == null || dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString() == string.Empty))
-                {
-                    MessageBox.Show("Mã sinh viên đang bị bỏ trống.\nGiá trị của mã sinh viên sẽ được đặt mặc định.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dataGridView2.Rows[e.RowIndex].Cells[0].Value = e.RowIndex;
-                }
-                bool check = true;
-                check = kiemTraTrungLapMSV(e.RowIndex);
-                try
-                {
-                    double diemtx = double.NaN, diemkt = double.NaN, diemtb = double.NaN;
-                    string diemChu = string.Empty;
-
-                    if (!(dataGridView2.Rows[e.RowIndex].Cells[1].Value == null || dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString() == string.Empty))
-                    {
-                        diemtx = double.Parse(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString());
-                        if (diemtx < 0 || diemtx > 10)
-                        {
-                            diemtx = 0;
-                            MessageBox.Show("Giá trị của điểm thường xuyên chỉ ở trong khoảng 0-10.\nĐiểm thường xuyên sẽ được đặt giá trị bằng 0.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            dataGridView2.Rows[e.RowIndex].Cells[1].Value = "0";
-                        }
-                    }
-                    else
-                    {
-                        check = false;
-                    }
-
-                    if (!(dataGridView2.Rows[e.RowIndex].Cells[2].Value == null || dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString() == string.Empty))
-                    {
-                        diemkt = double.Parse(dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString());
-                        if (diemkt < 0 || diemkt > 10)
-                        {
-                            diemkt = 0;
-                            MessageBox.Show("Giá trị của điểm kết thúc chỉ ở trong khoảng 0-10.\nĐiểm kết thúc sẽ được đặt giá trị bằng 0.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            dataGridView2.Rows[e.RowIndex].Cells[2].Value = "0";
-                        }
-                    }
-                    else
-                    {
-                        check = false;
-                    }
-
-                    if (check)
-                    {
-
-                        diemtb = Math.Round((diemtx + diemkt * 2) / 3, 2);
-                        dataGridView2.Rows[e.RowIndex].Cells[3].Value = diemtb.ToString();
-                        if (diemtb >= 8.5) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "A";
-                        else if (diemtb >= 7.7) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "B+";
-                        else if (diemtb >= 7) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "B";
-                        else if (diemtb >= 6.2) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "C+";
-                        else if (diemtb >= 5.5) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "C";
-                        else if (diemtb >= 4.7) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "D+";
-                        else if (diemtb >= 4.0) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "D";
-                        else if (diemtb < 4) dataGridView2.Rows[e.RowIndex].Cells[4].Value = "F";
-                        diemChu = dataGridView2.Rows[e.RowIndex].Cells[4].Value.ToString();
-                        int rowEffected = 0;
-                        if (diemTrongCSDL.Contains(maSV))
-                        {
-                            if (diemTrongCSDL.Contains(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim()))
-                            {
-                                rowEffected = new Database().ExecCmd("EXEC Update_Diem '" + dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + diemtb + ", '" + diemChu + "', '"
-                                                                            + dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() + "'");
-                            }
-                            else
-                            {
-                                rowEffected = new Database().ExecCmd("EXEC Update_Diem '" + maSV + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + diemtb + ", '" + diemChu + "', '"
-                                                                            + dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() + "'");
-                            }
-                        }
-                        else
-                        {
-                            if (dataGridView2.Rows[e.RowIndex].ErrorText.ToString().Equals("Cập nhập thất bại"))
-                            {
-                                maSV = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim();
-                            }
-                            rowEffected = new Database().ExecCmd("INSERT INTO DIEM VALUES('" + maSV + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + diemtb + ", '" + diemChu + "')");
-                        }
-
-
-                        if (rowEffected == 0)
-                        {
-                            MessageBox.Show("Cập nhập điểm thất bại.\nHãy chắc rằng mã sinh viên bạn nhập là đúng", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dataGridView2.Rows[e.RowIndex].ErrorText = "Cập nhập thất bại";
-                        }
-                        else
-                        {
-                            dataGridView2.Rows[e.RowIndex].ErrorText = string.Empty;
-                            if (btnHuyKQ.Visible == false)
-                            {
-                                dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
-                                diemTrongCSDL.Clear();
-                                for (int i = 0; i < dataGridView2.RowCount - 1; i++)
-                                {
-                                    diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                                }
-                            }
-                            else
-                            {
-                                dataGridView2.DataSource = null;
-                                dataGridView2.CurrentCell = null;
-                                dataGridView2.DataSource = new Data.Database().SelectData("EXEC TimKiem_Diem '" + maSV + "', '" + MaMH + "'");
-                                dataGridView2.AllowUserToAddRows = false;
-                            }
-
-                        }
-                        maSV = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString().Trim();
-                        hienThiSoLuongSinhVien();
-                    }
-                    else
-                    {
-                        if (string.IsNullOrEmpty(dataGridView2.Rows[e.RowIndex].ErrorText))
-                        {
-                            dataGridView2.Rows[e.RowIndex].ErrorText = "Bạn cần nhập đủ thông tin.";
-                        }
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi : " + ex);
-                }
-            }
-        }
-
-        private bool kiemTraTrungLapMSV(int index)
-        {
-            string maSV_Check = dataGridView2.Rows[index].Cells[0].Value.ToString().Trim();
-            int i = 0;
-            foreach (DataGridViewRow item in dataGridView2.Rows)
-            {
-                if (i != index && i < dataGridView2.RowCount - 1)
-                {
-                    if (maSV_Check.Equals(item.Cells[0].Value.ToString()))
-                    {
-                        if (string.IsNullOrEmpty(dataGridView2.Rows[index].ErrorText))
-                        {
-                            dataGridView2.Rows[index].ErrorText = "Mã sinh viên đã tồn tại, bạn cần nhập một mã sinh viên khác.";
-                        }
-                        return false;
-                    }
-                    else
-                    {
-                        dataGridView2.Rows[index].ErrorText = string.Empty;
-                    }
-                }
-                i++;
-            }
-            return true;
-        }
-
         private void dataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            MessageBox.Show("Lỗi : " + e.Exception.Message + "-" + e.RowIndex + "," + e.ColumnIndex, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        private void dataGridView2_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            maSV = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString();
+            if (dataGridView2.AllowUserToAddRows && e.RowIndex < dataGridView2.RowCount - 1)
+            {
+                MessageBox.Show("Lỗi : " + e.Exception.Message + " ở dòng " + (e.RowIndex + 1), "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnReloadData_Click(object sender, EventArgs e)
@@ -511,6 +422,8 @@ namespace BTLWin
             dataGridView2.ReadOnly = true;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
+            btnHuyKQ.Visible = false;
+            txtTimKiem.Text = string.Empty;
             dataGridView2.DataSource = null;
             dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
             btnChinhSua.BackColor = SystemColors.ControlDark;
@@ -520,6 +433,147 @@ namespace BTLWin
                 diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
             }
             hienThiSoLuongSinhVien();
+        }
+
+        private void dataGridView2_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dataGridView2.ReadOnly == false)
+            {
+                dataGridView2.Rows[e.RowIndex].ErrorText = "";
+                if (dataGridView2.Rows[e.RowIndex].IsNewRow) { return; }
+                if (e.ColumnIndex == 0)
+                {
+                    string sv = e.FormattedValue.ToString().Trim();
+                    if (sv.Length > 10)
+                    {
+                        e.Cancel = true;
+                        dataGridView2.Rows[e.RowIndex].ErrorText = "Độ dài tối đa của mã sinh viên là 10";
+                    }
+                }
+                else if (e.ColumnIndex == 1 || e.ColumnIndex == 2)
+                {
+                    double value;
+                    if (!double.TryParse(e.FormattedValue.ToString(), out value) || value < 0 || value > 10)
+                    {
+                        e.Cancel = true;
+                        dataGridView2.Rows[e.RowIndex].ErrorText = "Giá trị của " + dataGridView2.Columns[e.ColumnIndex].HeaderText.ToLower() + " chỉ trong khoảng 0 đến 10 và chỉ chứa các kì từ 0-9";
+                    }
+                }
+            }
+        }
+
+        private void dataGridView2_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (!escKey)
+            {
+                if (dataGridView2.AllowUserToAddRows && e.RowIndex < dataGridView2.RowCount - 1)
+                {
+                    DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
+                    e.Cancel = !checkCell(row.Cells[0]) || !checkCell(row.Cells[1]) || !checkCell(row.Cells[2]);
+                    if (!e.Cancel)
+                    {
+                        capNhapDiem(row, e);
+                    }
+                }
+            }
+        }
+
+        private void capNhapDiem(DataGridViewRow row, DataGridViewCellCancelEventArgs e)
+        {
+            try
+            {
+                bool updateTable = false;
+                List<string> result = new List<string>();
+                if (row.Index > checkUpdateTable.Rows.Count - 1)
+                {
+                    result = new Database().ExecCmd("INSERT INTO DIEM VALUES('" + row.Cells[0].Value + "', '" + MaMH + "', " + row.Cells[1].Value + ", " + row.Cells[2].Value + ", " + row.Cells[3].Value + ", '" + row.Cells[4].Value + "')");
+                    updateTable = true;
+                }
+                else
+                {
+                    if (!xoabtn)
+                    {
+                        if (row.Cells[0].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[0].ToString() || row.Cells[1].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[1].ToString() || row.Cells[2].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[2].ToString())
+                        {
+                            result = new Database().ExecCmd("EXEC Update_Diem '" + checkUpdateTable.Rows[row.Index].ItemArray[0] + "', '" + MaMH + "', " + row.Cells[1].Value + ", " + row.Cells[2].Value + ", " + row.Cells[3].Value + ", '" + row.Cells[4].Value + "', '" + row.Cells[0].Value + "'");
+                            updateTable = true;
+                        }
+                    }
+                }
+
+                if (updateTable)
+                {
+                    if (int.Parse(result[0]) == 0)
+                    {
+                        MessageBox.Show("Không thể cập nhập điểm.\nLỗi : " + result[1] + "\n Nhấn ESC để thoát chế độ chỉnh sửa và loại bỏ dòng lỗi", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        checkUpdateTable = null;
+                        checkUpdateTable = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
+                        foreach (DataGridViewCell item in row.Cells)
+                        {
+                            item.ErrorText = string.Empty;
+                        }
+                    }
+                }
+            }catch(Exception)
+            {
+                return;
+            }
+        }
+
+        private bool checkCell(DataGridViewCell cell)
+        {
+            if (cell.Value != null && cell.Value.ToString() == string.Empty)
+            {
+                MessageBox.Show("Mã sinh viên, điểm thường xuyên và điểm kết thúc học phần không cho phép giá trị NULL", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex != 3 && e.ColumnIndex != 4)
+            {
+                if (e.RowIndex > checkUpdateTable.Rows.Count - 1)
+                {
+                    dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "Giá trị đã được thay đổi";
+                }
+                else 
+                {
+                    if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() != checkUpdateTable.Rows[e.RowIndex].ItemArray[e.ColumnIndex].ToString())
+                    {
+                        dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "Giá trị đã được thay đổi";
+                    }
+                }
+            }
+        }
+
+        private void dataGridView2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                escKey = true;
+                dataGridView2.CurrentCell = null;
+                dataGridView2.DataSource = null;
+                dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
+                escKey = false;
+                hienThiSoLuongSinhVien();
+            }
+        }
+
+        private void dataGridView2_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            double diemtx, diemkt;
+            if (dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString() != string.Empty && double.TryParse(dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString(), out diemtx) && double.TryParse(dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString(), out diemkt))
+            {
+                dataGridView2.Rows[e.RowIndex].Cells[3].Value = tinhDiem(diemtx, diemkt)[0];
+                dataGridView2.Rows[e.RowIndex].Cells[4].Value = tinhDiem(diemtx, diemkt)[1];
+                hienThiSoLuongSinhVien();
+            }
         }
 
         private void btnTimKiem_Click(object sender, EventArgs e)

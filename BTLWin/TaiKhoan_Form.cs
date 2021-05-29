@@ -52,8 +52,8 @@ namespace BTLWin
         }
 
         private int luuThongTin()
-        {  
-            int rowEffected = 0;
+        {
+            List<string> result = new List<string>();
             if (txtHoTen.Text == "")
             {
                 textValidating(txtHoTen, new CancelEventArgs(), errorProvider1);
@@ -77,18 +77,18 @@ namespace BTLWin
 
                 if (accountType == 1)
                 {
-                    rowEffected = new Database().ExecCmd("EXEC Update_GiangVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
+                    result = new Database().ExecCmd("EXEC Update_GiangVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
                                         + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
                 }
                 else
                 {
                     //cập nhập sinh viên ở đây
-                    rowEffected = new Database().ExecCmd("EXEC Update_SinhVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
+                    result = new Database().ExecCmd("EXEC Update_SinhVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
                                         + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
                 }               
             }
             LoadData();
-            return rowEffected;
+            return int.Parse(result[0]);
         }
 
         private void btn_Huy_Click(object sender, EventArgs e)
@@ -115,6 +115,11 @@ namespace BTLWin
             //Mặc định các textBox, dateTimePicker, comboBox chỉ để xem
             dateNgaySinh.MaxDate = DateTime.Now;
             LoadData();
+            if(accountType == 0)
+            {
+                label3.Text = "Mã sinh viên";
+                label4.Text = "Họ tên sinh viên";
+            }    
         }
 
         private void textValidating(object sender, CancelEventArgs e, ErrorProvider error)

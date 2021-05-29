@@ -15,6 +15,7 @@ namespace BTLWin
         int accountType;
         List<string> tdnCSDL, maCSDL;
         QuanLyTaiKhoan_Form parent;
+        bool keyFlag;
         public ThemTaiKhoan_Form(int accountType, List<string> tdnCSDL, List<string> maCSDL)
         {
             InitializeComponent();
@@ -29,23 +30,23 @@ namespace BTLWin
         private void them(Form parent)
         {
             this.parent = (QuanLyTaiKhoan_Form)parent;
-            int rowEffected = 0;
+            List<string> result = new List<string>();
             string tdn1 = txtTenDN.Text.ToString().Trim();
             string mk1 = txtMatKhau.Text.ToString().Trim();
             string ma1 = txtMa.Text.ToString().Trim();
             switch (accountType)
             {
                 case 0:
-                    rowEffected = new Data.Database().ExecCmd("INSERT INTO TAIKHOANSV VALUES('" + tdn1 + "', '" + mk1 + "', '" + ma1 + "')");
+                    result = new Data.Database().ExecCmd("INSERT INTO TAIKHOANSV VALUES('" + tdn1 + "', '" + mk1 + "', '" + ma1 + "')");
                     break;
                 case 1:
-                    rowEffected = new Data.Database().ExecCmd("INSERT INTO TAIKHOANGV VALUES('" + tdn1 + "', '" + mk1 + "', '" + ma1 + "')");
+                    result = new Data.Database().ExecCmd("INSERT INTO TAIKHOANGV VALUES('" + tdn1 + "', '" + mk1 + "', '" + ma1 + "')");
                     break;
                 case 2:
-                    rowEffected = new Data.Database().ExecCmd("INSERT INTO TAIKHOANQTV VALUES('" + tdn1 + "', '" + mk1 + "')");
+                    result = new Data.Database().ExecCmd("INSERT INTO TAIKHOANQTV VALUES('" + tdn1 + "', '" + mk1 + "')");
                     break;
             }
-            if (rowEffected != 0)
+            if (int.Parse(result[0]) != 0)
             {
                 this.parent.themTaiKhoan();
                 tdnCSDL.Add(tdn1);
@@ -79,7 +80,8 @@ namespace BTLWin
             if(accountType == 0)
             {
                 lblMa.Text = "Mã sinh viên";
-            }    
+            }
+            keyFlag = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -152,6 +154,61 @@ namespace BTLWin
                 }
 
             }
+        }
+
+        private void keyDownCtrlBack(TextBox textBox, KeyEventArgs e)
+        {
+            if(e.Modifiers == Keys.Control && e.KeyCode == Keys.Back)
+            {
+                keyFlag = true;
+                textBox.Text = "";
+            }
+            else
+            {
+                keyFlag = false;
+            }
+        }
+
+        private void keyPressCtrlBack(TextBox textBox, KeyPressEventArgs e)
+        {
+            if (keyFlag)
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
+
+        private void txtTenDN_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyDownCtrlBack(txtTenDN, e);
+        }
+
+        private void txtTenDN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            keyPressCtrlBack(txtTenDN, e);
+        }
+
+        private void txtMatKhau_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyDownCtrlBack(txtMatKhau, e);
+        }
+
+        private void txtMa_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyDownCtrlBack(txtMa, e);
+        }
+
+        private void txtMa_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            keyPressCtrlBack(txtMa, e);
+        }
+
+        private void txtMatKhau_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            keyPressCtrlBack(txtMatKhau, e);
         }
     }
 }

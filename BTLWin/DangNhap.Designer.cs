@@ -159,13 +159,17 @@
             // txtMatKhau
             // 
             this.txtMatKhau.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMatKhau.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMatKhau.Location = new System.Drawing.Point(157, 428);
-            this.txtMatKhau.MaxLength = 14;
+            this.txtMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMatKhau.Location = new System.Drawing.Point(157, 425);
+            this.txtMatKhau.MaxLength = 24;
+            this.txtMatKhau.Multiline = true;
             this.txtMatKhau.Name = "txtMatKhau";
-            this.txtMatKhau.Size = new System.Drawing.Size(292, 25);
+            this.txtMatKhau.PasswordChar = '*';
+            this.txtMatKhau.Size = new System.Drawing.Size(292, 27);
             this.txtMatKhau.TabIndex = 2;
             this.txtMatKhau.Text = "Mật khẩu";
+            this.txtMatKhau.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMatKhau_KeyDown);
+            this.txtMatKhau.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatKhau_KeyPress);
             this.txtMatKhau.Validating += new System.ComponentModel.CancelEventHandler(this.txtMatKhau_Validating);
             // 
             // errorProvider1
@@ -179,8 +183,6 @@
             // chkHienThiMK
             // 
             this.chkHienThiMK.AutoSize = true;
-            this.chkHienThiMK.Checked = true;
-            this.chkHienThiMK.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkHienThiMK.Location = new System.Drawing.Point(99, 587);
             this.chkHienThiMK.Name = "chkHienThiMK";
             this.chkHienThiMK.Size = new System.Drawing.Size(140, 21);
@@ -192,13 +194,16 @@
             // txtDangNhap
             // 
             this.txtDangNhap.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtDangNhap.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDangNhap.Location = new System.Drawing.Point(157, 353);
-            this.txtDangNhap.MaxLength = 14;
+            this.txtDangNhap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDangNhap.Location = new System.Drawing.Point(157, 348);
+            this.txtDangNhap.MaxLength = 24;
+            this.txtDangNhap.Multiline = true;
             this.txtDangNhap.Name = "txtDangNhap";
-            this.txtDangNhap.Size = new System.Drawing.Size(292, 25);
+            this.txtDangNhap.Size = new System.Drawing.Size(292, 27);
             this.txtDangNhap.TabIndex = 1;
             this.txtDangNhap.Text = "Tên đăng nhập";
+            this.txtDangNhap.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDangNhap_KeyDown);
+            this.txtDangNhap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDangNhap_KeyPress);
             this.txtDangNhap.Validating += new System.ComponentModel.CancelEventHandler(this.txtDangNhap_Validating);
             // 
             // lblSaiTKorMK

@@ -297,6 +297,7 @@ namespace BTLWin
                 dataGridView1.Rows[0].Cells[0].Value = "Sinh viên";
                 dataGridView1.Rows[1].Cells[0].Value = "Giảng viên";
                 dataGridView1.Rows[2].Cells[0].Value = "Quản trị viên";
+                dataGridView1.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
                 load();
             }
             catch (Exception ex)

@@ -169,9 +169,11 @@
             this.txtMa.Enabled = false;
             this.txtMa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMa.Location = new System.Drawing.Point(223, 156);
+            this.txtMa.MaxLength = 24;
+            this.txtMa.Multiline = true;
             this.txtMa.Name = "txtMa";
             this.txtMa.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtMa.Size = new System.Drawing.Size(342, 20);
+            this.txtMa.Size = new System.Drawing.Size(342, 27);
             this.txtMa.TabIndex = 0;
             // 
             // txtHoTen
@@ -183,9 +185,10 @@
             this.txtHoTen.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHoTen.Location = new System.Drawing.Point(223, 227);
             this.txtHoTen.MaxLength = 100;
+            this.txtHoTen.Multiline = true;
             this.txtHoTen.Name = "txtHoTen";
             this.txtHoTen.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtHoTen.Size = new System.Drawing.Size(310, 20);
+            this.txtHoTen.Size = new System.Drawing.Size(310, 27);
             this.txtHoTen.TabIndex = 1;
             this.txtHoTen.Validating += new System.ComponentModel.CancelEventHandler(this.txtHoTen_Validating);
             // 
@@ -212,10 +215,11 @@
             this.txtDienThoai.Enabled = false;
             this.txtDienThoai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDienThoai.Location = new System.Drawing.Point(223, 545);
-            this.txtDienThoai.MaxLength = 10;
+            this.txtDienThoai.MaxLength = 20;
+            this.txtDienThoai.Multiline = true;
             this.txtDienThoai.Name = "txtDienThoai";
             this.txtDienThoai.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtDienThoai.Size = new System.Drawing.Size(310, 20);
+            this.txtDienThoai.Size = new System.Drawing.Size(310, 27);
             this.txtDienThoai.TabIndex = 5;
             this.txtDienThoai.Validating += new System.ComponentModel.CancelEventHandler(this.txtDienThoai_Validating);
             // 
@@ -255,9 +259,11 @@
             this.txtDangNhap.Enabled = false;
             this.txtDangNhap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDangNhap.Location = new System.Drawing.Point(854, 163);
+            this.txtDangNhap.MaxLength = 24;
+            this.txtDangNhap.Multiline = true;
             this.txtDangNhap.Name = "txtDangNhap";
             this.txtDangNhap.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtDangNhap.Size = new System.Drawing.Size(300, 20);
+            this.txtDangNhap.Size = new System.Drawing.Size(300, 27);
             this.txtDangNhap.TabIndex = 6;
             // 
             // txtMatKhau
@@ -268,10 +274,11 @@
             this.txtMatKhau.Enabled = false;
             this.txtMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMatKhau.Location = new System.Drawing.Point(854, 228);
-            this.txtMatKhau.MaxLength = 14;
+            this.txtMatKhau.MaxLength = 24;
+            this.txtMatKhau.Multiline = true;
             this.txtMatKhau.Name = "txtMatKhau";
             this.txtMatKhau.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtMatKhau.Size = new System.Drawing.Size(274, 20);
+            this.txtMatKhau.Size = new System.Drawing.Size(274, 27);
             this.txtMatKhau.TabIndex = 7;
             this.txtMatKhau.Validating += new System.ComponentModel.CancelEventHandler(this.txtMatKhau_Validating);
             // 

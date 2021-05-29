@@ -14,7 +14,7 @@ namespace BTLWin
 {
     public partial class DangNhap : Form
     {
-        bool mov;
+        bool mov, keyFlag;
         int movX, movY;
         public DangNhap()
         {
@@ -49,12 +49,9 @@ namespace BTLWin
         private void DangNhap_Load(object sender, EventArgs e)
         {
             //Hiển thị mật khẩu
-            if (chkHienThiMK.Checked)
-            {
-                txtMatKhau.UseSystemPasswordChar = false;
-            }
             lblSaiTKorMK.Visible = false;//Ẩn thông báo sai mk hoặc tên đăng nhập
             cmbLoaiTK.SelectedIndex = 0;
+            keyFlag = false;
         }
 
         private void txtDangNhap_Validating(object sender, CancelEventArgs e)
@@ -97,13 +94,11 @@ namespace BTLWin
         {
             if (chkHienThiMK.Checked)
             {
-                txtMatKhau.UseSystemPasswordChar = false;
-                //txtMatKhau.PasswordChar = '\0';
+                txtMatKhau.PasswordChar = '\0';
             }
             else
             {
-                txtMatKhau.UseSystemPasswordChar = true;
-                //txtMatKhau.PasswordChar = '*';
+                txtMatKhau.PasswordChar = '*';
             }
         }
 
@@ -121,14 +116,14 @@ namespace BTLWin
                 case 2:
                     table = new Database().SelectData("SELECT * FROM TAIKHOANQTV WHERE TaiKhoan = '" + txtDangNhap.Text + "' AND MatKhau = '" + txtMatKhau.Text + "'");
                     break;
-            }    
-            if(table != null)
+            }
+            if (table != null)
             {
                 if (table.Rows.Count != 0)
                 {
                     this.Hide();
                     //Truyền tên đăng nhập, mật khẩu và mã giáo viên vào main form
-                    if(cmbLoaiTK.SelectedIndex == 2)
+                    if (cmbLoaiTK.SelectedIndex == 2)
                     {
                         new MainForm(txtDangNhap.Text, txtMatKhau.Text, null, cmbLoaiTK.SelectedIndex).ShowDialog();
                     }
@@ -144,6 +139,52 @@ namespace BTLWin
                 }
             }
         }
+
+        private void keyDownCtrlBack(TextBox textBox, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Back)
+            {
+                keyFlag = true;
+                textBox.Text = "";
+            }
+            else
+            {
+                keyFlag = false;
+            }
+        }
+
+        private void keyPressCtrlBack(TextBox textBox, KeyPressEventArgs e)
+        {
+            if (keyFlag)
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
+
+        private void txtDangNhap_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyDownCtrlBack(txtDangNhap, e);
+        }
+
+        private void txtMatKhau_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyDownCtrlBack(txtMatKhau, e);
+        }
+
+        private void txtMatKhau_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            keyPressCtrlBack(txtMatKhau, e);
+        }
+
+        private void txtDangNhap_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            keyPressCtrlBack(txtDangNhap, e);
+        }
+
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (mov)// Nêu chuột còn đang được ấn xuống và di chuyển

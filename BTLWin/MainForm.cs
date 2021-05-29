@@ -78,6 +78,7 @@ namespace BTLWin
                     btnTaiKhoan.Text = "Quản lý tài khoản";
                     btnTaiKhoan.Padding = new Padding(30, 0, 0, 0);
                     btnQuanLy.Visible = false;
+                    btnTrangChu.Visible = false;
                     break;
             }
         }

@@ -88,9 +88,13 @@
             this.txtTenDN.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTenDN.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenDN.Location = new System.Drawing.Point(236, 61);
+            this.txtTenDN.MaxLength = 24;
+            this.txtTenDN.Multiline = true;
             this.txtTenDN.Name = "txtTenDN";
-            this.txtTenDN.Size = new System.Drawing.Size(306, 23);
+            this.txtTenDN.Size = new System.Drawing.Size(306, 27);
             this.txtTenDN.TabIndex = 1;
+            this.txtTenDN.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTenDN_KeyDown);
+            this.txtTenDN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTenDN_KeyPress);
             this.txtTenDN.Validating += new System.ComponentModel.CancelEventHandler(this.txtTenDN_Validating);
             // 
             // txtMatKhau
@@ -99,9 +103,13 @@
             this.txtMatKhau.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMatKhau.Location = new System.Drawing.Point(236, 115);
+            this.txtMatKhau.MaxLength = 24;
+            this.txtMatKhau.Multiline = true;
             this.txtMatKhau.Name = "txtMatKhau";
-            this.txtMatKhau.Size = new System.Drawing.Size(306, 23);
+            this.txtMatKhau.Size = new System.Drawing.Size(306, 27);
             this.txtMatKhau.TabIndex = 2;
+            this.txtMatKhau.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMatKhau_KeyDown);
+            this.txtMatKhau.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatKhau_KeyPress);
             this.txtMatKhau.Validating += new System.ComponentModel.CancelEventHandler(this.txtMatKhau_Validating);
             // 
             // txtMa
@@ -110,9 +118,13 @@
             this.txtMa.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMa.Location = new System.Drawing.Point(236, 168);
+            this.txtMa.MaxLength = 20;
+            this.txtMa.Multiline = true;
             this.txtMa.Name = "txtMa";
-            this.txtMa.Size = new System.Drawing.Size(306, 23);
+            this.txtMa.Size = new System.Drawing.Size(306, 27);
             this.txtMa.TabIndex = 3;
+            this.txtMa.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMa_KeyDown);
+            this.txtMa.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMa_KeyPress);
             this.txtMa.Validating += new System.ComponentModel.CancelEventHandler(this.txtMa_Validating);
             // 
             // btn_Them
@@ -123,7 +135,7 @@
             this.btn_Them.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_Them.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Them.ForeColor = System.Drawing.Color.White;
-            this.btn_Them.Location = new System.Drawing.Point(53, 273);
+            this.btn_Them.Location = new System.Drawing.Point(51, 269);
             this.btn_Them.MaximumSize = new System.Drawing.Size(368, 51);
             this.btn_Them.Name = "btn_Them";
             this.btn_Them.Size = new System.Drawing.Size(123, 43);
@@ -140,7 +152,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(236, 273);
+            this.button1.Location = new System.Drawing.Point(234, 269);
             this.button1.MaximumSize = new System.Drawing.Size(368, 51);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(123, 43);
@@ -157,7 +169,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(409, 273);
+            this.button2.Location = new System.Drawing.Point(407, 269);
             this.button2.MaximumSize = new System.Drawing.Size(368, 51);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(123, 43);

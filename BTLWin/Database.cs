@@ -46,17 +46,20 @@ namespace Data
                 conn.Close();
             }
         }
-        public int ExecCmd(string query)
+        public List<string> ExecCmd(string query)
         {
+            List<string> result = new List<string>(2);
             try
-            {
+            {               
                 conn.Open();
                 cmd = new SqlCommand(query, conn);
-                return cmd.ExecuteNonQuery();
-            }catch(Exception)
+                result.Add(cmd.ExecuteNonQuery().ToString());
+                return result; 
+            }catch(Exception ex)
             {
-                //MessageBox.Show(ex.Message);
-                return 0;
+                result.Add("0");
+                result.Add(ex.Message);
+                return result;
             }
             finally
             {
