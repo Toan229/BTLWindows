@@ -77,6 +77,8 @@ namespace BTLWin
                 case 2:
                     btnTaiKhoan.Text = "Quản lý tài khoản";
                     btnTaiKhoan.Padding = new Padding(30, 0, 0, 0);
+                    activeChildForm(new QuanLyTaiKhoan_Form(this.userName));
+                    activeButton(btnTaiKhoan, Color.CadetBlue);
                     btnQuanLy.Visible = false;
                     btnTrangChu.Visible = false;
                     break;
@@ -229,7 +231,7 @@ namespace BTLWin
             else
             {
                 //form quản lý tài khoản
-                activeChildForm(new QuanLyTaiKhoan_Form());
+                activeChildForm(new QuanLyTaiKhoan_Form(this.userName));
             }
         }
 

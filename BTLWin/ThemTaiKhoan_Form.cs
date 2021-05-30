@@ -60,7 +60,7 @@ namespace BTLWin
             }
             else
             {
-                MessageBox.Show("Thêm tài khoản thất bại.\nHãy chắc chắn mã người dùng bạn nhập là đúng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Thêm tài khoản thất bại.\n" + "Lỗi : " + result[1], "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

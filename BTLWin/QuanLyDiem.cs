@@ -243,9 +243,13 @@ namespace BTLWin
             }
             else
             {
-                xoabtn = true;
-                xoa();
-                xoabtn = false;
+                DialogResult result = MessageBox.Show("Dữ liệu bị xóa sẽ không thể khôi phục.\nBạn có chắc muốn xóa không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    xoabtn = true;
+                    xoa();
+                    xoabtn = false;
+                }
             }
         }
 
@@ -505,7 +509,7 @@ namespace BTLWin
                 {
                     if (int.Parse(result[0]) == 0)
                     {
-                        MessageBox.Show("Không thể cập nhập điểm.\nLỗi : " + result[1] + "\n Nhấn ESC để thoát chế độ chỉnh sửa và loại bỏ dòng lỗi", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Không thể cập nhập điểm.\nLỗi : " + result[1] + "\nNhấn ESC để thoát chế độ chỉnh sửa và loại bỏ dòng lỗi", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         e.Cancel = true;
                     }
                     else
@@ -518,7 +522,8 @@ namespace BTLWin
                         }
                     }
                 }
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 return;
             }
@@ -542,9 +547,9 @@ namespace BTLWin
                 {
                     dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "Giá trị đã được thay đổi";
                 }
-                else 
+                else
                 {
-                    if(dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() != checkUpdateTable.Rows[e.RowIndex].ItemArray[e.ColumnIndex].ToString())
+                    if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() != checkUpdateTable.Rows[e.RowIndex].ItemArray[e.ColumnIndex].ToString())
                     {
                         dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "Giá trị đã được thay đổi";
                     }

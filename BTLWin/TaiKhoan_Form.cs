@@ -85,7 +85,7 @@ namespace BTLWin
                     //cập nhập sinh viên ở đây
                     result = new Database().ExecCmd("EXEC Update_SinhVien '" + txtMa.Text + "', N'" + txtHoTen.Text + "', '"
                                         + date + "', N'" + gioitinh + "', N'" + txtDiaChi.Text + "', '" + txtDienThoai.Text + "', '" + txtMatKhau.Text + "'");
-                }               
+                }
             }
             LoadData();
             return int.Parse(result[0]);
@@ -115,11 +115,11 @@ namespace BTLWin
             //Mặc định các textBox, dateTimePicker, comboBox chỉ để xem
             dateNgaySinh.MaxDate = DateTime.Now;
             LoadData();
-            if(accountType == 0)
+            if (accountType == 0)
             {
                 label3.Text = "Mã sinh viên";
                 label4.Text = "Họ tên sinh viên";
-            }    
+            }
         }
 
         private void textValidating(object sender, CancelEventArgs e, ErrorProvider error)
@@ -194,7 +194,10 @@ namespace BTLWin
             txtDiaChi.Text = dt.Rows[0][5].ToString();
             txtDienThoai.Text = dt.Rows[0][6].ToString();
             txtDangNhap.Text = username;
-            txtMatKhau.Text = password;
+            if (txtMatKhau.Text == "")
+            {
+                txtMatKhau.Text = password;
+            }
             cbGioiTinh.Text = dt.Rows[0][4].ToString();
             dataGridView1.Visible = false;
             label9.Visible = false;
@@ -211,7 +214,10 @@ namespace BTLWin
             txtDiaChi.Text = dt.Rows[0][4].ToString();
             txtDienThoai.Text = dt.Rows[0][5].ToString();
             txtDangNhap.Text = username;
-            txtMatKhau.Text = password;
+            if (txtMatKhau.Text == "")
+            {
+                txtMatKhau.Text = password;
+            }
             cbGioiTinh.Text = dt.Rows[0][3].ToString();
         }
     }

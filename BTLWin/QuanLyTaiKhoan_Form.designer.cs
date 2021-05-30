@@ -98,12 +98,12 @@ namespace BTLWin
             this.groupBox1.Controls.Add(this.btnChinhSua);
             this.groupBox1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(12, 233);
+            this.groupBox1.Location = new System.Drawing.Point(12, 245);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBox1.Size = new System.Drawing.Size(362, 450);
+            this.groupBox1.Size = new System.Drawing.Size(362, 438);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chức năng";
@@ -116,12 +116,12 @@ namespace BTLWin
             this.btnThem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThem.ForeColor = System.Drawing.Color.Black;
             this.btnThem.Image = ((System.Drawing.Image)(resources.GetObject("btnThem.Image")));
-            this.btnThem.Location = new System.Drawing.Point(13, 158);
+            this.btnThem.Location = new System.Drawing.Point(19, 181);
             this.btnThem.Margin = new System.Windows.Forms.Padding(4);
             this.btnThem.Name = "btnThem";
             this.btnThem.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnThem.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnThem.Size = new System.Drawing.Size(341, 50);
+            this.btnThem.Size = new System.Drawing.Size(320, 40);
             this.btnThem.TabIndex = 9;
             this.btnThem.Text = "Thêm tài khoản";
             this.btnThem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -136,7 +136,7 @@ namespace BTLWin
             this.btnHuyKQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHuyKQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuyKQ.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnHuyKQ.Location = new System.Drawing.Point(12, 109);
+            this.btnHuyKQ.Location = new System.Drawing.Point(18, 122);
             this.btnHuyKQ.Margin = new System.Windows.Forms.Padding(4);
             this.btnHuyKQ.Name = "btnHuyKQ";
             this.btnHuyKQ.Size = new System.Drawing.Size(223, 27);
@@ -151,7 +151,7 @@ namespace BTLWin
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(8, 40);
+            this.label3.Location = new System.Drawing.Point(15, 49);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(142, 20);
@@ -165,7 +165,7 @@ namespace BTLWin
             this.btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTimKiem.ForeColor = System.Drawing.Color.Black;
-            this.btnTimKiem.Location = new System.Drawing.Point(249, 77);
+            this.btnTimKiem.Location = new System.Drawing.Point(235, 90);
             this.btnTimKiem.Margin = new System.Windows.Forms.Padding(4);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(104, 30);
@@ -177,11 +177,11 @@ namespace BTLWin
             // txtTimKiem
             // 
             this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimKiem.Location = new System.Drawing.Point(12, 77);
+            this.txtTimKiem.Location = new System.Drawing.Point(18, 90);
             this.txtTimKiem.Margin = new System.Windows.Forms.Padding(4);
             this.txtTimKiem.Name = "txtTimKiem";
             this.txtTimKiem.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtTimKiem.Size = new System.Drawing.Size(223, 30);
+            this.txtTimKiem.Size = new System.Drawing.Size(209, 30);
             this.txtTimKiem.TabIndex = 0;
             // 
             // btnLuu
@@ -193,11 +193,11 @@ namespace BTLWin
             this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLuu.ForeColor = System.Drawing.Color.Black;
             this.btnLuu.Image = ((System.Drawing.Image)(resources.GetObject("btnLuu.Image")));
-            this.btnLuu.Location = new System.Drawing.Point(13, 363);
+            this.btnLuu.Location = new System.Drawing.Point(18, 373);
             this.btnLuu.Margin = new System.Windows.Forms.Padding(4);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnLuu.Size = new System.Drawing.Size(341, 50);
+            this.btnLuu.Size = new System.Drawing.Size(320, 40);
             this.btnLuu.TabIndex = 7;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -214,11 +214,11 @@ namespace BTLWin
             this.btnXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnXoa.ForeColor = System.Drawing.Color.Black;
             this.btnXoa.Image = ((System.Drawing.Image)(resources.GetObject("btnXoa.Image")));
-            this.btnXoa.Location = new System.Drawing.Point(13, 295);
+            this.btnXoa.Location = new System.Drawing.Point(19, 308);
             this.btnXoa.Margin = new System.Windows.Forms.Padding(4);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnXoa.Size = new System.Drawing.Size(341, 50);
+            this.btnXoa.Size = new System.Drawing.Size(320, 40);
             this.btnXoa.TabIndex = 4;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -234,12 +234,12 @@ namespace BTLWin
             this.btnChinhSua.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChinhSua.ForeColor = System.Drawing.Color.Black;
             this.btnChinhSua.Image = ((System.Drawing.Image)(resources.GetObject("btnChinhSua.Image")));
-            this.btnChinhSua.Location = new System.Drawing.Point(13, 228);
+            this.btnChinhSua.Location = new System.Drawing.Point(19, 245);
             this.btnChinhSua.Margin = new System.Windows.Forms.Padding(4);
             this.btnChinhSua.Name = "btnChinhSua";
             this.btnChinhSua.Padding = new System.Windows.Forms.Padding(45, 0, 0, 0);
             this.btnChinhSua.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnChinhSua.Size = new System.Drawing.Size(341, 50);
+            this.btnChinhSua.Size = new System.Drawing.Size(320, 40);
             this.btnChinhSua.TabIndex = 3;
             this.btnChinhSua.Text = "Chỉnh sửa tài khoản";
             this.btnChinhSua.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -276,6 +276,7 @@ namespace BTLWin
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -289,7 +290,7 @@ namespace BTLWin
             this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(362, 100);
+            this.dataGridView1.Size = new System.Drawing.Size(362, 112);
             this.dataGridView1.TabIndex = 16;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
