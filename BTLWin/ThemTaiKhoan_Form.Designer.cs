@@ -232,7 +232,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximumSize = new System.Drawing.Size(600, 400);
+            this.MaximumSize = new System.Drawing.Size(600, 352);
             this.Name = "ThemTaiKhoan_Form";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

@@ -85,160 +85,53 @@ namespace BTLWin
             }
         }
 
-        public int KiemTraDuLieu()
-        {
-            try
-            {
-                //Error là chuỗi thông báo lỗi, thông báo ra các dòng dữ liệu bị lỗi
-                String error = "";
-                //List er dùng để lưu các dòng datagridview có dữ liệu không hợp lệ
-                List<int> er = new List<int>();
-                switch (accountType)
-                {
-                    //TH: Tài khoản sinh viên
-                    case 0:
-                        for (int i = 0; i < dataGridView2.RowCount - 1; i++)
-                        {
-                            //Lấy dữ liệu
-                            String passWord1 = dataGridView2.Rows[i].Cells[1].Value.ToString();
-                            String MaSV = dataGridView2.Rows[i].Cells[2].Value.ToString();
-                            if (passWord1.Length == 0 || passWord1.Length > 10 || MaSV.Length == 0 || MaSV.Length > 10)
-                            {
-                                error += " " + (i + 1);
-                                er.Add(i);
-                                continue;
-                            }
-                            else
-                            {
-                                //Ô Tài khoản không được phép nhập mà lấy trực tiếp từ MaSV làm tài khoản
-                                dataGridView2.Rows[i].Cells[0].Value = MaSV;
-                            }
-                            DataTable dt = new Database().SelectData("SELECT * FROM SINHVIEN WHERE MaSV= '" + MaSV + "'");
-                            if (dt.Rows.Count == 0)
-                            {
-                                error += " " + (i + 1);
-                                er.Add(i);
-                                continue;
-                            }
-
-                        }
-                        break;
-                    //TH: Tài khoản giảng viên
-                    case 1:
-                        for (int i = 0; i < dataGridView2.RowCount - 1; i++)
-                        {
-                            //Lấy dữ liệu
-                            //Ô Tài khoản không được phép nhập mà lấy trực tiếp từ MaGV làm tài khoản
-                            String passWord = dataGridView2.Rows[i].Cells[1].Value.ToString();
-                            String MaGV = dataGridView2.Rows[i].Cells[2].Value.ToString();
-                            /*
-                             * Kiểm tra dữ liệu
-                             * Các ô không được để trống .length phải khác 0
-                             * password và MaGV chỉ từ 0 đến 10 ký tự
-                             */
-                            if (passWord.Length == 0 || passWord.Length > 10 || MaGV.Length == 0 || MaGV.Length > 10)
-                            {
-                                error += " " + (i + 1);
-                                er.Add(i);
-                                continue;
-                            }
-                            else
-                            {
-                                dataGridView2.Rows[i].Cells[0].Value = MaGV;
-                            }
-                            DataTable dt = new Database().SelectData("SELECT * FROM GIANGVIEN WHERE MaGV= '" + MaGV + "'");
-                            if (dt.Rows.Count == 0)
-                            {
-                                error += " " + (i + 1);
-                                er.Add(i);
-                                continue;
-                            }
-                        }
-                        break;
-                    case 2:
-                        for (int i = 0; i < dataGridView2.RowCount - 1; i++)
-                        {
-                            String userName2 = dataGridView2.Rows[i].Cells[0].Value.ToString();
-                            String passWord2 = dataGridView2.Rows[i].Cells[1].Value.ToString();
-                            if (userName2.Length == 0 || passWord2.Length == 0 || passWord2.Length > 10)
-                            {
-                                error += " " + (i + 1);
-                                er.Add(i);
-                                continue;
-                            }
-
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                if (er.Count != 0)
-                {
-                    DialogResult rsl = MessageBox.Show("Dữ liệu lỗi tại các dòng " + error + "\nNếu tiếp tục sẽ bỏ qua các dòng lỗi, bạn có muốn tiếp tục?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (rsl == DialogResult.Yes)
-                    {
-                        for (int i = er.Count - 1; i >= 0; i--)
-                        {
-                            dataGridView2.Rows.RemoveAt(er[i]);
-                        }
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-                else return 1;
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                return 0;
-            }
-        }
-
         public void update()
         {
             try
             {
+                string user, pass, id;
+                int rowsEffected = 0;
                 switch (accountType)
                 {
                     case 0:
-                        for (int i = 0; i < dataGridView2.RowCount - 1; i++)
+                        for (int i = 0; i < dataGridView2.RowCount; i++)
                         {
-                            String userName = dataGridView2.Rows[i].Cells[0].Value.ToString();
-                            String passWord = dataGridView2.Rows[i].Cells[1].Value.ToString();
-                            String MaSV = dataGridView2.Rows[i].Cells[2].Value.ToString();
-                            new Database().ExecCmd("EXEC Update_TaiKhoanSV '" + userName + "', '" + passWord + "', '" + MaSV + "'");
+                            user = dataGridView2.Rows[i].Cells[0].Value.ToString();
+                            pass = dataGridView2.Rows[i].Cells[1].Value.ToString();
+                            id = dataGridView2.Rows[i].Cells[2].Value.ToString();
+                            rowsEffected += int.Parse(new Database().ExecCmd("EXEC Update_TaiKhoanSV '" + user + "', '" + pass + "', '" + id + "'")[0]);
                         }
                         break;
                     case 1:
-                        for (int i = 0; i < dataGridView2.RowCount - 1; i++)
+                        for (int i = 0; i < dataGridView2.RowCount; i++)
                         {
-                            String userName = dataGridView2.Rows[i].Cells[0].Value.ToString();
-                            String passWord = dataGridView2.Rows[i].Cells[1].Value.ToString();
-                            String MaGV = dataGridView2.Rows[i].Cells[2].Value.ToString();
-                            new Database().ExecCmd("EXEC Update_TaiKhoanGV '" + userName + "', '" + passWord + "', '" + MaGV + "'");
+                            user = dataGridView2.Rows[i].Cells[0].Value.ToString();
+                            pass = dataGridView2.Rows[i].Cells[1].Value.ToString();
+                            id = dataGridView2.Rows[i].Cells[2].Value.ToString();
+                            rowsEffected += int.Parse(new Database().ExecCmd("EXEC Update_TaiKhoanGV '" + user + "', '" + pass + "', '" + id + "'")[0]);
                         }
                         break;
                     case 2:
-                        for (int i = 0; i < dataGridView2.RowCount - 1; i++)
+                        for (int i = 0; i < dataGridView2.RowCount; i++)
                         {
-                            String userName = dataGridView2.Rows[i].Cells[0].Value.ToString();
-                            String passWord = dataGridView2.Rows[i].Cells[1].Value.ToString();
-                            new Database().ExecCmd("EXEC Update_TaiKhoanQTV '" + userName + "', '" + passWord + "'");
+                            user = dataGridView2.Rows[i].Cells[0].Value.ToString();
+                            pass = dataGridView2.Rows[i].Cells[1].Value.ToString();
+                            rowsEffected += int.Parse(new Database().ExecCmd("EXEC Update_TaiKhoanQTV '" + user + "', '" + pass + "'")[0]);
                         }
                         break;
-                    default:
-                        break;
                 }
-                MessageBox.Show("Cập nhật thành công");
-
+                if (rowsEffected == dataGridView2.RowCount)
+                {
+                    MessageBox.Show("Cập nhật thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Số dòng cập nhập thành công : " + rowsEffected + "/" + dataGridView2.RowCount, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cập nhật thất bại");
+                MessageBox.Show("Cập nhật thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -294,11 +187,11 @@ namespace BTLWin
             try
             {
                 dataGridView1.Rows.Add(3);
-            dataGridView1.Rows[0].Cells[0].Value = "Sinh viên";
-            dataGridView1.Rows[1].Cells[0].Value = "Giảng viên";
-            dataGridView1.Rows[2].Cells[0].Value = "Quản trị viên";
-            dataGridView1.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-            loadDuLieu(0);
+                dataGridView1.Rows[0].Cells[0].Value = "Sinh viên";
+                dataGridView1.Rows[1].Cells[0].Value = "Giảng viên";
+                dataGridView1.Rows[2].Cells[0].Value = "Quản trị viên";
+                dataGridView1.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+                loadDuLieu(0);
             }
             catch (Exception ex)
             {
@@ -338,32 +231,8 @@ namespace BTLWin
         {
             if (!isSaved)
             {
-                int check = KiemTraDuLieu();
-                if (check == 1)
-                {
-                    update();
-                    loadDuLieu(dataGridView1.CurrentRow.Index);
-                }
-                else
-                {
-                    MessageBox.Show("Cập nhật thất bại");
-                }
-            }
-        }
-
-        private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (accountType != 2)
-                {
-                    String Ma = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
-                    dataGridView2.Rows[e.RowIndex].Cells[0].Value = Ma;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                update();
+                loadDuLieu(dataGridView1.CurrentRow.Index);
             }
         }
 
@@ -397,7 +266,7 @@ namespace BTLWin
             {
                 if (isSaved)
                 {
-                    if(dataGridView2.CurrentCell != null)
+                    if (dataGridView2.CurrentCell != null)
                     {
                         DialogResult result = MessageBox.Show("Dữ liệu bị xóa sẽ không thể khôi phục được.\nBạn có chắc muốn xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
@@ -424,6 +293,21 @@ namespace BTLWin
         public void themTaiKhoan()
         {
             loadDuLieu(dataGridView1.CurrentRow.Index);
+        }
+
+        private void dataGridView2_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            dataGridView2.Rows[e.RowIndex].ErrorText = "";
+            if (dataGridView2.Rows[e.RowIndex].IsNewRow) { return; }
+
+            if ((e.ColumnIndex == 1 || e.ColumnIndex == 2))
+            {
+                if (e.FormattedValue.ToString() == string.Empty || e.FormattedValue.ToString().Length > 10)
+                {
+                    e.Cancel = true;
+                    dataGridView2.Rows[e.RowIndex].ErrorText = "Dữ liệu ở ô " + dataGridView2.Columns[e.ColumnIndex].HeaderText.ToLower() + " không thể bỏ trống hoặc quá 10 kí tự"; 
+                }
+            }
         }
 
         private void btnThem_Click(object sender, EventArgs e)

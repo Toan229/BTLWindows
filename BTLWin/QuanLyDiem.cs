@@ -320,10 +320,10 @@ namespace BTLWin
                 {
 
                     System.Data.DataTable dt = new System.Data.DataTable();
+                    Database data = new Database();
                     dt = Import();
                     if (dt != null)
                     {
-                        new Database().ExecCmd("DELETE FROM DIEM WHERE MaMH = '" + MaMH + "'");
                         int rowsEffected = 0;
                         List<string> result1 = new List<string>();
                         double diemtx, diemkt;
@@ -336,28 +336,28 @@ namespace BTLWin
                                 {
                                     if (diemTrongCSDL.Contains(item.ItemArray[0].ToString()))
                                     {
-                                        result1 = new Database().ExecCmd("EXEC Update_Diem '" + item.ItemArray[0] + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + tinhDiem(diemtx, diemkt)[0] + ", '" + tinhDiem(diemtx, diemkt)[1] + "', '" + item.ItemArray[0] + "'");
+                                        result1 = data.ExecCmd("EXEC Update_Diem '" + item.ItemArray[0] + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + tinhDiem(diemtx, diemkt)[0] + ", '" + tinhDiem(diemtx, diemkt)[1] + "', '" + item.ItemArray[0] + "'");
                                     }
-                                    //else if ()
-                                    //{
-                                    //    rowEffected = new Database().ExecCmd("INSERT INTO DIEM VALUES('" + item.ItemArray[0] + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + tinhDiem(diemtx, diemkt)[0] + ", '" + tinhDiem(diemtx, diemkt)[1] + "')");
-                                    //    if (rowEffected != 0)
-                                    //    {
-                                    //        diemTrongCSDL.Add(item.ItemArray[0].ToString());
-                                    //    }
-                                    //}
+                                    else
+                                    {
+                                        result1 = data.ExecCmd("INSERT INTO DIEM VALUES('" + item.ItemArray[0] + "', '" + MaMH + "', " + diemtx + ", " + diemkt + ", " + tinhDiem(diemtx, diemkt)[0] + ", '" + tinhDiem(diemtx, diemkt)[1] + "')");
+                                        if (result1[0] != "0")
+                                        {
+                                            diemTrongCSDL.Add(item.ItemArray[0].ToString());
+                                        }
+                                    }
                                     rowsEffected += int.Parse(result1[0]);
                                 }
                             }
                         }
-
+                        checkUpdateTable = data.SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
 
                         dataGridView2.DataSource = null;
                         dataGridView2.ReadOnly = true;
                         dataGridView2.AllowUserToAddRows = false;
                         dataGridView2.CurrentCell = null;
                         dataGridView2.DataSource = null;
-                        dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
+                        dataGridView2.DataSource = data.SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
                         if (rowsEffected == dt.Rows.Count)
                         {
                             MessageBox.Show("Nhập dữ liệu thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -520,6 +520,7 @@ namespace BTLWin
                         {
                             item.ErrorText = string.Empty;
                         }
+                        hienThiSoLuongSinhVien();
                     }
                 }
             }
@@ -543,6 +544,7 @@ namespace BTLWin
         {
             if (e.ColumnIndex != 3 && e.ColumnIndex != 4)
             {
+                dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "";
                 if (e.RowIndex > checkUpdateTable.Rows.Count - 1)
                 {
                     dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "Giá trị đã được thay đổi";
@@ -577,7 +579,6 @@ namespace BTLWin
             {
                 dataGridView2.Rows[e.RowIndex].Cells[3].Value = tinhDiem(diemtx, diemkt)[0];
                 dataGridView2.Rows[e.RowIndex].Cells[4].Value = tinhDiem(diemtx, diemkt)[1];
-                hienThiSoLuongSinhVien();
             }
         }
 
