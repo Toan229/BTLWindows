@@ -43,11 +43,13 @@ namespace BTLWin
             int rowEffected = luuThongTin();
             if (rowEffected != 0)
             {
-                MessageBox.Show("Cập nhập thành công", "Thông báo");
+                MessageBox.Show("Cập nhập thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                password = txtMatKhau.Text;
             }
             else
             {
-                MessageBox.Show("Cập nhập thất bại", "Thông báo");
+                MessageBox.Show("Cập nhập thất bại", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtMatKhau.Text = password;
             }
         }
 
@@ -120,6 +122,7 @@ namespace BTLWin
                 label3.Text = "Mã sinh viên";
                 label4.Text = "Họ tên sinh viên";
             }
+            txtMatKhau.Text = password;
         }
 
         private void textValidating(object sender, CancelEventArgs e, ErrorProvider error)
@@ -194,10 +197,6 @@ namespace BTLWin
             txtDiaChi.Text = dt.Rows[0][5].ToString();
             txtDienThoai.Text = dt.Rows[0][6].ToString();
             txtDangNhap.Text = username;
-            if (txtMatKhau.Text == "")
-            {
-                txtMatKhau.Text = password;
-            }
             cbGioiTinh.Text = dt.Rows[0][4].ToString();
             dataGridView1.Visible = false;
             label9.Visible = false;
@@ -214,10 +213,6 @@ namespace BTLWin
             txtDiaChi.Text = dt.Rows[0][4].ToString();
             txtDienThoai.Text = dt.Rows[0][5].ToString();
             txtDangNhap.Text = username;
-            if (txtMatKhau.Text == "")
-            {
-                txtMatKhau.Text = password;
-            }
             cbGioiTinh.Text = dt.Rows[0][3].ToString();
         }
     }

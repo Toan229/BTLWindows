@@ -14,6 +14,7 @@ namespace BTLWin
     public partial class QuanLyTaiKhoan_Form : Form
     {
         List<string> tdnCSDL, maCSDL;
+        DataTable tableCSDL;
         string userName;
         public QuanLyTaiKhoan_Form(string userName)
         {
@@ -21,6 +22,7 @@ namespace BTLWin
             tdnCSDL = new List<string>();
             maCSDL = new List<string>();
             this.userName = userName;
+            tableCSDL = new DataTable();
         }
         /*
          * Phần này làm gần giống phần QuanLyDiem nhưng đơn giản hơn
@@ -43,14 +45,15 @@ namespace BTLWin
                 if (accountType == 0)
                 {
                     dataGridView2.DataSource = new Database().SelectData("SELECT * FROM TAIKHOANSV");
+                    loadTable(0);
                     dataGridView2.Columns[0].HeaderText = "Tên đăng nhập";
                     dataGridView2.Columns[1].HeaderText = "Mật khẩu";
                     dataGridView2.Columns[2].HeaderText = "Mã sinh viên";
-
                 }
                 else if (accountType == 1)
                 {
                     dataGridView2.DataSource = new Database().SelectData("SELECT * FROM TAIKHOANGV");
+                    loadTable(1);
                     dataGridView2.Columns[0].HeaderText = "Tên đăng nhập";
                     dataGridView2.Columns[1].HeaderText = "Mật khẩu";
                     dataGridView2.Columns[2].HeaderText = "Mã giảng viên";
@@ -60,6 +63,7 @@ namespace BTLWin
                     dataGridView2.DataSource = new Database().SelectData("SELECT * FROM TAIKHOANQTV WHERE TaiKhoan != '" + this.userName + "'");
                     dataGridView2.Columns[0].HeaderText = "Tên đăng nhập";
                     dataGridView2.Columns[1].HeaderText = "Mật khẩu";
+                    loadTable(2);
                 }
                 dataGridView2.ReadOnly = true;
                 btnXoa.Enabled = true;
@@ -70,6 +74,7 @@ namespace BTLWin
                 btnHuyKQ.Visible = false;
                 tdnCSDL.Clear();
                 maCSDL.Clear();
+
                 foreach (DataGridViewRow item in dataGridView2.Rows)
                 {
                     tdnCSDL.Add(item.Cells[0].Value.ToString().Trim());
@@ -82,6 +87,31 @@ namespace BTLWin
             catch (Exception)
             {
                 return;
+            }
+        }
+
+        private void loadTable(int type)
+        {
+            tableCSDL.Rows.Clear();
+            tableCSDL.Columns.Clear();
+            for (int i = 0; i < dataGridView2.ColumnCount; i++)
+            {
+                tableCSDL.Columns.Add();
+            }
+
+            if (type == 2)
+            {
+                for (int i = 0; i < dataGridView2.RowCount; i++)
+                {
+                    tableCSDL.Rows.Add(dataGridView2.Rows[i].Cells[0].Value, dataGridView2.Rows[i].Cells[1].Value);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < dataGridView2.RowCount; i++)
+                {
+                    tableCSDL.Rows.Add(dataGridView2.Rows[i].Cells[0].Value, dataGridView2.Rows[i].Cells[1].Value, dataGridView2.Rows[i].Cells[2].Value);
+                }
             }
         }
 
@@ -128,6 +158,7 @@ namespace BTLWin
                 {
                     MessageBox.Show("Số dòng cập nhập thành công : " + rowsEffected + "/" + dataGridView2.RowCount, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                isSaved = true;
             }
             catch (Exception)
             {
@@ -205,7 +236,7 @@ namespace BTLWin
             {
                 if (!isSaved)
                 {
-                    DialogResult rsl = MessageBox.Show("Dữ liệu bạn vừa thay đổi chưa được lưu, bạn có muốn lưu không?", "Hỏi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult rsl = MessageBox.Show("Dữ liệu bạn vừa thay đổi chưa được lưu, bạn có muốn lưu không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (rsl == DialogResult.Yes)
                     {
                         btnLuu_Click(sender, e);
@@ -214,7 +245,9 @@ namespace BTLWin
                 loadDuLieu(e.RowIndex);
                 isSaved = true;
             }
-            catch (Exception) { }
+            catch (Exception ex) {
+                MessageBox.Show("Lỗi : " + ex.Message + "\nKhông thể tải được dữ liệu !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnChinhSua_Click(object sender, EventArgs e)
@@ -242,7 +275,7 @@ namespace BTLWin
             {
                 if (txtTimKiem.Text.ToString() == "")
                 {
-                    MessageBox.Show("Thông tin tìm kiếm đang bị bỏ trống", "Thông báo");
+                    MessageBox.Show("Thông tin tìm kiếm đang bị bỏ trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -305,7 +338,31 @@ namespace BTLWin
                 if (e.FormattedValue.ToString() == string.Empty || e.FormattedValue.ToString().Length > 10)
                 {
                     e.Cancel = true;
-                    dataGridView2.Rows[e.RowIndex].ErrorText = "Dữ liệu ở ô " + dataGridView2.Columns[e.ColumnIndex].HeaderText.ToLower() + " không thể bỏ trống hoặc quá 10 kí tự"; 
+                    dataGridView2.Rows[e.RowIndex].ErrorText = "Dữ liệu ở ô " + dataGridView2.Columns[e.ColumnIndex].HeaderText.ToLower() + " không thể bỏ trống hoặc quá 10 kí tự";
+                }
+            }
+        }
+
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex != 0)
+            {
+                dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = string.Empty;
+                if (dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim() != tableCSDL.Rows[e.RowIndex].ItemArray[e.ColumnIndex].ToString().Trim())
+                {
+                    dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = "Giá trị của ô này đã được thay đổi";
+                }
+            }
+        }
+
+        private void QuanLyTaiKhoan_Form_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!isSaved)
+            {
+                DialogResult rsl = MessageBox.Show("Dữ liệu bạn vừa thay đổi chưa được lưu.\nBạn có muốn lưu không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (rsl == DialogResult.Yes)
+                {
+                    btnLuu_Click(sender, e);
                 }
             }
         }
