@@ -33,7 +33,7 @@ namespace BTLWin
         List<DsDiem> diemUpdate, diemInsert;
         List<string> diemTrongCSDL;
         System.Data.DataTable checkUpdateTable;
-        bool escKey, err;
+        bool escKey, err, xoaBtn;
 
         public QuanLyDiem()
         {
@@ -49,6 +49,7 @@ namespace BTLWin
             diemTrongCSDL = new List<string>();
             escKey = false;
             err = false;
+            xoaBtn = false;
             checkUpdateTable = new System.Data.DataTable();
         }
 
@@ -61,10 +62,6 @@ namespace BTLWin
                 checkUpdateTable.Columns.Add();
             }
             fillCheckUpdateTable();
-            foreach (DataRow item in checkUpdateTable.Rows)
-            {
-                diemTrongCSDL.Add(item.ItemArray[0].ToString());
-            }
             MaMH = dataGridView1.Rows[0].Cells[0].Value.ToString();
             hienThiSoLuongSinhVien();
         }
@@ -77,6 +74,14 @@ namespace BTLWin
             {
                 checkUpdateTable.Rows.Add(dataGridView2.Rows[i].Cells[0].Value, dataGridView2.Rows[i].Cells[1].Value, dataGridView2.Rows[i].Cells[2].Value, dataGridView2.Rows[i].Cells[3].Value, dataGridView2.Rows[i].Cells[4].Value);
             }
+
+            diemTrongCSDL.Clear();
+            foreach (DataRow item in checkUpdateTable.Rows)
+            {
+                diemTrongCSDL.Add(item.ItemArray[0].ToString());
+            }
+            escKey = false;
+            xoaBtn = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -94,11 +99,6 @@ namespace BTLWin
                 }
                 catch (InvalidOperationException) { }
                 fillCheckUpdateTable();
-                diemTrongCSDL.Clear();
-                for (int i = 0; i < dataGridView2.RowCount; i++)
-                {
-                    diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
-                }
                 hienThiSoLuongSinhVien();
                 MaMH = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
                 txtTimKiem.Text = string.Empty;
@@ -261,6 +261,7 @@ namespace BTLWin
                 DialogResult result = MessageBox.Show("Dữ liệu bị xóa sẽ không thể khôi phục.\nBạn có chắc muốn xóa không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
+                    xoaBtn = true;
                     xoa();
                 }
             }
@@ -270,6 +271,7 @@ namespace BTLWin
         {
             Database data = new Database();
             List<int> position = new List<int>();
+            List<string> res;
             foreach (DataGridViewRow item in dataGridView2.SelectedRows)
             {
                 if (!dataGridView2.AllowUserToAddRows || (dataGridView2.AllowUserToAddRows && item.Index < dataGridView2.RowCount - 1))
@@ -277,7 +279,7 @@ namespace BTLWin
                     if (dataGridView2.Rows[item.Index].ErrorText == "" && diemTrongCSDL.Contains(item.Cells[0].Value.ToString()))
                     {
                         diemTrongCSDL.Remove(item.Cells[0].Value.ToString());
-                        data.ExecCmd("EXEC Delete_Diem '" + item.Cells[0].Value.ToString() + "', '" + MaMH + "'");
+                        res = data.ExecCmd("EXEC Delete_Diem '" + item.Cells[0].Value.ToString() + "', '" + MaMH + "'");
                     }
                     position.Add(item.Index);
                 }
@@ -295,11 +297,6 @@ namespace BTLWin
             }
             catch (InvalidOperationException) { }
             fillCheckUpdateTable();
-            diemTrongCSDL.Clear();
-            for (int i = 0; i < checkUpdateTable.Rows.Count; i++)
-            {
-                diemTrongCSDL.Add(checkUpdateTable.Rows[i].ItemArray[0].ToString());
-            }
             btnHuyKQ.Visible = false;
             txtTimKiem.Text = string.Empty;
             hienThiSoLuongSinhVien();
@@ -456,11 +453,6 @@ namespace BTLWin
             catch (InvalidOperationException) { }
             fillCheckUpdateTable();
             btnChinhSua.BackColor = SystemColors.ControlDark;
-            diemTrongCSDL.Clear();
-            for (int i = 0; i < dataGridView2.RowCount; i++)
-            {
-                diemTrongCSDL.Add(dataGridView2.Rows[i].Cells[0].Value.ToString());
-            }
             hienThiSoLuongSinhVien();
         }
 
@@ -515,61 +507,66 @@ namespace BTLWin
         {
             try
             {
-                bool checkNullOrEmpty = false;
-                if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null)
+                if (!xoaBtn)
                 {
-                    if (row.Cells[0].Value.ToString().Trim() != "" && row.Cells[1].Value.ToString().Trim() != "" && row.Cells[2].Value.ToString().Trim() != "")
-                    {
-                        checkNullOrEmpty = true;
-                        bool updateTable = false;
-                        List<string> result = new List<string>();
-                        if (row.Index > checkUpdateTable.Rows.Count - 1)
-                        {
-                            result = new Database().ExecCmd("INSERT INTO DIEM VALUES('" + row.Cells[0].Value + "', '" + MaMH + "', " + row.Cells[1].Value + ", " + row.Cells[2].Value + ", " + row.Cells[3].Value + ", '" + row.Cells[4].Value + "')");
-                            updateTable = true;
-                        }
-                        else
-                        {
-                            if (row.Cells[0].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[0].ToString() || row.Cells[1].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[1].ToString() || row.Cells[2].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[2].ToString())
-                            {
-                                result = new Database().ExecCmd("EXEC Update_Diem '" + checkUpdateTable.Rows[row.Index].ItemArray[0] + "', '" + MaMH + "', " + row.Cells[1].Value + ", " + row.Cells[2].Value + ", " + row.Cells[3].Value + ", '" + row.Cells[4].Value + "', '" + row.Cells[0].Value + "'");
-                                updateTable = true;
-                            }
-                        }
 
-                        if (updateTable)
+
+                    bool checkNullOrEmpty = false;
+                    if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null)
+                    {
+                        if (row.Cells[0].Value.ToString().Trim() != "" && row.Cells[1].Value.ToString().Trim() != "" && row.Cells[2].Value.ToString().Trim() != "")
                         {
-                            if (int.Parse(result[0]) == 0)
+                            checkNullOrEmpty = true;
+                            bool updateTable = false;
+                            List<string> result = new List<string>();
+                            if (row.Index > checkUpdateTable.Rows.Count - 1)
                             {
-                                MessageBox.Show("Không thể cập nhập điểm.\nLỗi : " + result[1] + "\nNhấn ESC để tải lại dữ liệu và thoát chế độ chỉnh sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                e.Cancel = true;
-                                err = true;
+                                result = new Database().ExecCmd("INSERT INTO DIEM VALUES('" + row.Cells[0].Value + "', '" + MaMH + "', " + row.Cells[1].Value + ", " + row.Cells[2].Value + ", " + row.Cells[3].Value + ", '" + row.Cells[4].Value + "')");
+                                updateTable = true;
                             }
                             else
                             {
-                                err = false;
-                                fillCheckUpdateTable();
-                                foreach (DataGridViewCell item in row.Cells)
+                                if (row.Cells[0].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[0].ToString() || row.Cells[1].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[1].ToString() || row.Cells[2].Value.ToString() != checkUpdateTable.Rows[row.Index].ItemArray[2].ToString())
                                 {
-                                    item.ErrorText = string.Empty;
+                                    result = new Database().ExecCmd("EXEC Update_Diem '" + checkUpdateTable.Rows[row.Index].ItemArray[0] + "', '" + MaMH + "', " + row.Cells[1].Value + ", " + row.Cells[2].Value + ", " + row.Cells[3].Value + ", '" + row.Cells[4].Value + "', '" + row.Cells[0].Value + "'");
+                                    updateTable = true;
                                 }
-                                hienThiSoLuongSinhVien();
+                            }
+
+                            if (updateTable)
+                            {
+                                if (int.Parse(result[0]) == 0)
+                                {
+                                    MessageBox.Show("Không thể cập nhập điểm.\nLỗi : " + result[1] + "\nNhấn ESC để tải lại dữ liệu và thoát chế độ chỉnh sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    e.Cancel = true;
+                                    err = true;
+                                }
+                                else
+                                {
+                                    err = false;
+                                    fillCheckUpdateTable();
+                                    foreach (DataGridViewCell item in row.Cells)
+                                    {
+                                        item.ErrorText = string.Empty;
+                                    }
+                                    hienThiSoLuongSinhVien();
+                                }
                             }
                         }
                     }
+                    if (!checkNullOrEmpty)
+                    {
+                        MessageBox.Show("Mã sinh viên, điểm thường xuyên và điểm kết thúc không cho phép giá trị null hoặc khoảng trắng.\nNhấn ESC để tải lại dữ liệu và thoát chế độ chỉnh sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dataGridView2.Rows[e.RowIndex].ErrorText = "Thiếu dữ liệu";
+                        err = true;
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        dataGridView2.Rows[e.RowIndex].ErrorText = "";
+                    }
+                    //escKey = false;
                 }
-                if (!checkNullOrEmpty)
-                {
-                    MessageBox.Show("Mã sinh viên, điểm thường xuyên và điểm kết thúc không cho phép giá trị null hoặc khoảng trắng.\nNhấn ESC để tải lại dữ liệu và thoát chế độ chỉnh sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    dataGridView2.Rows[e.RowIndex].ErrorText = "Thiếu dữ liệu";
-                    err = true;
-                    e.Cancel = true;
-                }
-                else
-                {
-                    dataGridView2.Rows[e.RowIndex].ErrorText = "";
-                }
-                //escKey = false;
             }
             catch (Exception)
             {
@@ -610,7 +607,6 @@ namespace BTLWin
                         dataGridView2.DataSource = new Database().SelectData("EXEC TimKiem_Diem_TheoMaMH '" + MaMH + "'");
                         fillCheckUpdateTable();
                         hienThiSoLuongSinhVien();
-                        escKey = false;
                     }
                     catch (InvalidOperationException) { }
                     err = false;
@@ -623,6 +619,7 @@ namespace BTLWin
                     DialogResult result = MessageBox.Show("Dữ liệu bị xóa sẽ không thể khôi phục.\nBạn có chắc muốn xóa không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
+                        xoaBtn = true;
                         xoa();
                     }
                 }
